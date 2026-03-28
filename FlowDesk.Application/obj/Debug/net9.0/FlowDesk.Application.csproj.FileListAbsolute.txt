@@ -8,6 +8,7 @@ C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.Application.
 C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.Application.AssemblyInfoInputs.cache
 C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.Application.AssemblyInfo.cs
 C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.Application.csproj.CoreCompileInputs.cache
+C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.Application.sourcelink.json
 C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.5E634297.Up2Date
 C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\FlowDesk.Application.dll
 C:\Projetos\FlowDesk\FlowDesk.Application\obj\Debug\net9.0\refint\FlowDesk.Application.dll

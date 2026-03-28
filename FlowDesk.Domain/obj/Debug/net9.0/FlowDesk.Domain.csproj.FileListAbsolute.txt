@@ -5,6 +5,7 @@ C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.GeneratedM
 C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.AssemblyInfoInputs.cache
 C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.AssemblyInfo.cs
 C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.csproj.CoreCompileInputs.cache
+C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.sourcelink.json
 C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.dll
 C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\refint\FlowDesk.Domain.dll
 C:\Projetos\FlowDesk\FlowDesk.Domain\obj\Debug\net9.0\FlowDesk.Domain.pdb

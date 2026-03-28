@@ -11,6 +11,7 @@ C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.Infrastru
 C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.Infrastructure.AssemblyInfoInputs.cache
 C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.Infrastructure.AssemblyInfo.cs
 C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.Infrastructure.sourcelink.json
 C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.93F3E875.Up2Date
 C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\FlowDesk.Infrastructure.dll
 C:\Projetos\FlowDesk\FlowDesk.Infrastructure\obj\Debug\net9.0\refint\FlowDesk.Infrastructure.dll
