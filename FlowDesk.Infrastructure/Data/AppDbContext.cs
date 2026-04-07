@@ -13,6 +13,9 @@ namespace FlowDesk.Infrastructure.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
 
+        public DbSet<Ticket> Tickets => Set<Ticket>();
+        public DbSet<Category> Categories => Set<Category>();
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -23,6 +26,12 @@ namespace FlowDesk.Infrastructure.Data
                 new Role(1, "Admin"),
                 new Role(2, "Employee"),
                 new Role(3, "Technician")
+            );
+
+            builder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "TI" },
+                new Category { Id = 2, Name = "RH" },
+                new Category { Id = 3, Name = "Financeiro" }
             );
         }
     }
