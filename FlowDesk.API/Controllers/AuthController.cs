@@ -23,6 +23,7 @@ namespace FlowDesk.API.Controllers
             return Ok(result);
         }
 
+        //POST /api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {

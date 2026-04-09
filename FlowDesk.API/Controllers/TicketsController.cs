@@ -18,6 +18,7 @@ namespace FlowDesk.API.Controllers
             _service = service;
         }
 
+        // api/tickets
         [HttpPost]
         public async Task<IActionResult> Create(CreateTicketDto dto)
         {
@@ -32,6 +33,26 @@ namespace FlowDesk.API.Controllers
         {
             var result = await _service.GetAllAsync(page, pageSize);
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin,Technician")]
+        [HttpPut("{id}/assign")]
+        public async Task<IActionResult> Assign(int id)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            await _service.AssignAsync(id, userId);
+            return NoContent();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/close")]
+        public async Task<IActionResult> Close(int id)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            await _service.CloseAsync(id, userId);
+            return NoContent();
         }
     }
 }

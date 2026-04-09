@@ -16,6 +16,8 @@ namespace FlowDesk.Infrastructure.Data
         public DbSet<Ticket> Tickets => Set<Ticket>();
         public DbSet<Category> Categories => Set<Category>();
 
+        public DbSet<TicketHistory> TicketHistories => Set<TicketHistory>();
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)

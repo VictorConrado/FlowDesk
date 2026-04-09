@@ -61,5 +61,33 @@ namespace FlowDesk.Infrastructure.Services
             });
 
         }
+
+        public async Task AssignAsync(int ticketId, int userId)
+        {
+            var ticket = await _context.Tickets.FindAsync(ticketId);
+
+            if (ticket == null)
+                throw new Exception("Ticket não encontrado");
+
+            ticket.AssignTo(userId);
+
+            _context.TicketHistories.Add(
+                new TicketHistory(ticket.Id, "Ticket atribuído", userId));
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CloseAsync(int ticketId, int userId)
+        {
+           var ticket = await _context.Tickets.FindAsync(ticketId);
+            if (ticket == null)
+                throw new Exception("Ticket não encontrado");
+
+            ticket.Close();
+
+            _context.TicketHistories.Add(
+                new TicketHistory(ticket.Id, "Ticket fechado", userId));
+            await _context.SaveChangesAsync();
+        }
     }
 }

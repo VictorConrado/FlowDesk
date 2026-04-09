@@ -43,12 +43,18 @@ namespace FlowDesk.Domain.Entities
 
         public void AssignTo(int userId)
         {
+            if (Status == TicketStatus.Closed)
+                throw new Exception("Não foi possivel atribuir um ticket fechado");
+            
             AssignedToId = userId;
             Status = TicketStatus.InProgress;
         }
 
         public void Close()
         {
+            if (Status == TicketStatus.Closed)
+                throw new Exception("O Ticket já está encerrado");
+
             Status = TicketStatus.Closed;
         }
     }
