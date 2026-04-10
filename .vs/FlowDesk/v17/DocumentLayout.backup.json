@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "C:\\Projetos\\FlowDesk\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|c:\\projetos\\flowdesk\\flowdesk.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|solutionrelative:flowdesk.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79431520-7705-4E34-9BE7-444AF7DF47EA}|FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj|c:\\projetos\\flowdesk\\flowdesk.infrastructure\\messaging\\ticketcreatedconsumer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79431520-7705-4E34-9BE7-444AF7DF47EA}|FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj|solutionrelative:flowdesk.infrastructure\\messaging\\ticketcreatedconsumer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79431520-7705-4E34-9BE7-444AF7DF47EA}|FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj|c:\\projetos\\flowdesk\\flowdesk.infrastructure\\messaging\\rabbitmqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79431520-7705-4E34-9BE7-444AF7DF47EA}|FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj|solutionrelative:flowdesk.infrastructure\\messaging\\rabbitmqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|c:\\projetos\\flowdesk\\flowdesk.application\\interfaces\\imessagebus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|solutionrelative:flowdesk.application\\interfaces\\imessagebus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{79431520-7705-4E34-9BE7-444AF7DF47EA}|FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj|c:\\projetos\\flowdesk\\flowdesk.infrastructure\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{79431520-7705-4E34-9BE7-444AF7DF47EA}|FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj|solutionrelative:flowdesk.infrastructure\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|c:\\projetos\\flowdesk\\flowdesk.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|solutionrelative:flowdesk.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|c:\\projetos\\flowdesk\\flowdesk.application\\events\\ticketcreatedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|solutionrelative:flowdesk.application\\events\\ticketcreatedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|c:\\projetos\\flowdesk\\flowdesk.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|solutionrelative:flowdesk.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B8121D44-413B-4141-AC99-695A797A5372}|FlowDesk.Domain\\FlowDesk.Domain.csproj|c:\\projetos\\flowdesk\\flowdesk.domain\\entities\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B8121D44-413B-4141-AC99-695A797A5372}|FlowDesk.Domain\\FlowDesk.Domain.csproj|solutionrelative:flowdesk.domain\\entities\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|c:\\projetos\\flowdesk\\flowdesk.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|solutionrelative:flowdesk.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0846233B-81EF-4B90-971C-A807BC5FA044}|FlowDesk.API\\FlowDesk.API.csproj|c:\\projetos\\flowdesk\\flowdesk.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|c:\\projetos\\flowdesk\\flowdesk.application\\dtos\\ticket\\ticketresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|solutionrelative:flowdesk.application\\dtos\\ticket\\ticketresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B8121D44-413B-4141-AC99-695A797A5372}|FlowDesk.Domain\\FlowDesk.Domain.csproj|c:\\projetos\\flowdesk\\flowdesk.domain\\entities\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B8121D44-413B-4141-AC99-695A797A5372}|FlowDesk.Domain\\FlowDesk.Domain.csproj|solutionrelative:flowdesk.domain\\entities\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5A5D8A5-FF0E-4F5F-B14E-5A5A3B1371C6}|FlowDesk.Application\\FlowDesk.Application.csproj|c:\\projetos\\flowdesk\\flowdesk.application\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -82,7 +98,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,46 +114,84 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TicketCreatedConsumer.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Messaging\\TicketCreatedConsumer.cs",
+              "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\Messaging\\TicketCreatedConsumer.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Messaging\\TicketCreatedConsumer.cs",
+              "RelativeToolTip": "FlowDesk.Infrastructure\\Messaging\\TicketCreatedConsumer.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwDMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-09T21:17:04.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Program.cs",
+              "RelativeDocumentMoniker": "FlowDesk.API\\Program.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Program.cs",
+              "RelativeToolTip": "FlowDesk.API\\Program.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T05:30:02.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IMessageBus.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\Interfaces\\IMessageBus.cs",
+              "RelativeDocumentMoniker": "FlowDesk.Application\\Interfaces\\IMessageBus.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\Interfaces\\IMessageBus.cs",
+              "RelativeToolTip": "FlowDesk.Application\\Interfaces\\IMessageBus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-09T06:01:16.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RabbitMqService.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Messaging\\RabbitMqService.cs",
+              "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\Messaging\\RabbitMqService.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Messaging\\RabbitMqService.cs",
+              "RelativeToolTip": "FlowDesk.Infrastructure\\Messaging\\RabbitMqService.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-09T06:05:06.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "TicketService.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Services\\TicketService.cs",
               "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\Services\\TicketService.cs",
               "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Services\\TicketService.cs",
               "RelativeToolTip": "FlowDesk.Infrastructure\\Services\\TicketService.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAwwEwAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAlwBMAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-04T06:25:53.064Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TicketsController.cs",
-              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Controllers\\TicketsController.cs",
-              "RelativeDocumentMoniker": "FlowDesk.API\\Controllers\\TicketsController.cs",
-              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Controllers\\TicketsController.cs",
-              "RelativeToolTip": "FlowDesk.API\\Controllers\\TicketsController.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAAwCUAAAAvAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "TicketCreatedEvent.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\Events\\TicketCreatedEvent.cs",
+              "RelativeDocumentMoniker": "FlowDesk.Application\\Events\\TicketCreatedEvent.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\Events\\TicketCreatedEvent.cs",
+              "RelativeToolTip": "FlowDesk.Application\\Events\\TicketCreatedEvent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T04:34:50.062Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-09T05:57:21.739Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAuwBIAAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T03:13:14.845Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "TicketResponseDto.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\DTOs\\Ticket\\TicketResponseDto.cs",
               "RelativeDocumentMoniker": "FlowDesk.Application\\DTOs\\Ticket\\TicketResponseDto.cs",
@@ -145,12 +199,23 @@
               "RelativeToolTip": "FlowDesk.Application\\DTOs\\Ticket\\TicketResponseDto.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAApwAgAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T06:48:47.874Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-07T06:48:47.874Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "FlowDesk.Infrastructure\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAuwBIAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T03:13:14.845Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "TicketHistory.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Entities\\TicketHistory.cs",
               "RelativeDocumentMoniker": "FlowDesk.Domain\\Entities\\TicketHistory.cs",
@@ -158,12 +223,11 @@
               "RelativeToolTip": "FlowDesk.Domain\\Entities\\TicketHistory.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAuwB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T06:32:08.828Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-08T06:32:08.828Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "FlowDesk.API\\Controllers\\AuthController.cs",
@@ -171,25 +235,11 @@
               "RelativeToolTip": "FlowDesk.API\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAArwBkAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T05:42:37.387Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T05:42:37.387Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Program.cs",
-              "RelativeDocumentMoniker": "FlowDesk.API\\Program.cs",
-              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Program.cs",
-              "RelativeToolTip": "FlowDesk.API\\Program.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAYwAwAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T05:30:02.2Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\appsettings.json",
               "RelativeDocumentMoniker": "FlowDesk.API\\appsettings.json",
@@ -197,12 +247,35 @@
               "RelativeToolTip": "FlowDesk.API\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-03-25T05:29:33.79Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T05:29:33.79Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Ticket.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Entities\\Ticket.cs",
+              "RelativeDocumentMoniker": "FlowDesk.Domain\\Entities\\Ticket.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Entities\\Ticket.cs",
+              "RelativeToolTip": "FlowDesk.Domain\\Entities\\Ticket.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAwwDcAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T06:13:26.577Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
+              "Title": "TicketsController.cs",
+              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Controllers\\TicketsController.cs",
+              "RelativeDocumentMoniker": "FlowDesk.API\\Controllers\\TicketsController.cs",
+              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.API\\Controllers\\TicketsController.cs",
+              "RelativeToolTip": "FlowDesk.API\\Controllers\\TicketsController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAwCUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T04:34:50.062Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "IAuthService.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\Interfaces\\IAuthService.cs",
               "RelativeDocumentMoniker": "FlowDesk.Application\\Interfaces\\IAuthService.cs",
@@ -210,12 +283,11 @@
               "RelativeToolTip": "FlowDesk.Application\\Interfaces\\IAuthService.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAswAwAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T03:28:06.855Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T03:28:06.855Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "ITicketService.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\Interfaces\\ITicketService.cs",
               "RelativeDocumentMoniker": "FlowDesk.Application\\Interfaces\\ITicketService.cs",
@@ -223,25 +295,11 @@
               "RelativeToolTip": "FlowDesk.Application\\Interfaces\\ITicketService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIAwwA4AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T06:49:58.931Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-07T06:49:58.931Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Ticket.cs",
-              "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Entities\\Ticket.cs",
-              "RelativeDocumentMoniker": "FlowDesk.Domain\\Entities\\Ticket.cs",
-              "ToolTip": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Entities\\Ticket.cs",
-              "RelativeToolTip": "FlowDesk.Domain\\Entities\\Ticket.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAADcAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T06:13:26.577Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "TicketPriority.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Enums\\TicketPriority.cs",
               "RelativeDocumentMoniker": "FlowDesk.Domain\\Enums\\TicketPriority.cs",
@@ -249,12 +307,11 @@
               "RelativeToolTip": "FlowDesk.Domain\\Enums\\TicketPriority.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T07:16:05.62Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-08T07:16:05.62Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "TicketStatus.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Enums\\TicketStatus.cs",
               "RelativeDocumentMoniker": "FlowDesk.Domain\\Enums\\TicketStatus.cs",
@@ -266,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "CreateTicketDto.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Application\\DTOs\\Ticket\\CreateTicketDto.cs",
               "RelativeDocumentMoniker": "FlowDesk.Application\\DTOs\\Ticket\\CreateTicketDto.cs",
@@ -278,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\Services\\AuthService.cs",
@@ -290,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",
@@ -302,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "Role.cs",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Domain\\Entities\\Role.cs",
               "RelativeDocumentMoniker": "FlowDesk.Domain\\Entities\\Role.cs",
@@ -314,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "FlowDesk.Infrastructure.csproj",
               "DocumentMoniker": "C:\\Projetos\\FlowDesk\\FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj",
               "RelativeDocumentMoniker": "FlowDesk.Infrastructure\\FlowDesk.Infrastructure.csproj",
