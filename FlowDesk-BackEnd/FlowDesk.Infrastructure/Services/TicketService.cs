@@ -87,6 +87,15 @@ namespace FlowDesk.Infrastructure.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Ticket>>GetTicketsByUserIdAsync(int userId)
+        {
+
+            return await _context.Tickets
+                .Where(t => t.AssignedToId == userId)
+                .ToListAsync();
+        }
+
+
         public async Task CloseAsync(int ticketId, int userId)
         {
            var ticket = await _context.Tickets.FindAsync(ticketId);
