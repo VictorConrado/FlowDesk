@@ -40,6 +40,12 @@ export default function Login() {
         <button className="bg-blue-500 text-white p-2 w-full">
           Entrar
         </button>
+        <p>
+          Não tem conta? <a href="/register">Cadastrar</a>
+        </p>
+        <p>
+          <a href="/forgot-password">Esqueci minha senha</a>
+        </p>
       </form>
     </div>
   );

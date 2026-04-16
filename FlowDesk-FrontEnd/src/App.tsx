@@ -5,11 +5,29 @@ import Dashboard from "./pages/Dashboard";
 import Tickets from "./pages/Tickets";
 import Admin from "./pages/Admin"; // 👈 novo
 import { ProtectedRoute } from "./routes/ProtectedRoute";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+       
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Profile />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/dashboard"
@@ -33,7 +51,6 @@ function App() {
         }
       />
 
-      {/* 👇 NOVA ROTA ADMIN */}
       <Route
         path="/admin"
         element={

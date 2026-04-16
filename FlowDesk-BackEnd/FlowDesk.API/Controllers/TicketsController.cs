@@ -2,6 +2,7 @@
 using FlowDesk.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace FlowDesk.API.Controllers
@@ -53,6 +54,17 @@ namespace FlowDesk.API.Controllers
 
             await _service.CloseAsync(id, userId);
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("my-tickets")]
+        public async Task<IActionResult> GetMyTickets()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var tickets = await _service.GetTicketsByUserIdAsync(userId);
+
+            return Ok(tickets);
         }
     }
 }
