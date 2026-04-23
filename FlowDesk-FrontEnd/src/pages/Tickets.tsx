@@ -50,7 +50,7 @@ export default function Tickets() {
     <div>
       <h1 className="text-xl font-bold mb-4">Tickets</h1>
 
-      {/* FORM */}
+
       <div className="mb-4 flex gap-2">
         <input
           className="border p-2"
@@ -74,7 +74,6 @@ export default function Tickets() {
         </button>
       </div>
 
-      {/* LISTA COM AÇÕES */}
       <div className="grid gap-4">
         {tickets.map((t) => (
           <div
@@ -89,7 +88,6 @@ export default function Tickets() {
             <div className="flex gap-2 items-center">
               <span className="text-sm">{t.priority}</span>
 
-              {/* Technician */}
               {user?.role === "Technician" && t.status === "Open" && (
                 <button
                   onClick={() => assignTicket(t.id)}
@@ -99,7 +97,6 @@ export default function Tickets() {
                 </button>
               )}
 
-              {/* Admin */}
               {user?.role === "Admin" && t.status !== "Closed" && (
                 <button
                   onClick={() => closeTicket(t.id)}
