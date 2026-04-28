@@ -8,6 +8,6 @@ namespace FlowDesk.Application.Interfaces
 {
     public interface IMessageBus
     {
-        void Publish<T>(T message);
+        Task PublishAsync<T>(T message);
     }
 }

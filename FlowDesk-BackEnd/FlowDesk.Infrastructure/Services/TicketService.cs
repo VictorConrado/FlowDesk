@@ -38,7 +38,7 @@ namespace FlowDesk.Infrastructure.Services
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
            
-            _bus.Publish(new TicketCreatedEvent
+            _bus.PublishAsync(new TicketCreatedEvent
             {
                 TicketId = ticket.Id,
                 Title = ticket.Title

@@ -1,19 +1,15 @@
 ﻿using FlowDesk.Application.DTOs.Auth;
+using FlowDesk.Application.Events;
 using FlowDesk.Application.Interfaces;
 using FlowDesk.Domain.Entities;
 using FlowDesk.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Crypto.Generators;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FlowDesk.Infrastructure.Services
 {
@@ -21,11 +17,14 @@ namespace FlowDesk.Infrastructure.Services
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _config;
+        private readonly IMessageBus _messageBus;
 
-        public AuthService(AppDbContext context, IConfiguration config)
+        public AuthService(AppDbContext context, IConfiguration config, IMessageBus messageBus)
         {
             _context = context;
             _config = config;
+            _messageBus = messageBus;
+
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
@@ -102,13 +101,19 @@ namespace FlowDesk.Infrastructure.Services
                 .FirstOrDefaultAsync(x => x.Email == dto.Email);
 
             if (user == null)
-                throw new Exception("Email não encontrado");
+                return;
 
-            var token = Guid.NewGuid().ToString();
+            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
 
             user.SetResetToken(token, DateTime.UtcNow.AddHours(1));
 
             await _context.SaveChangesAsync();
+
+            await _messageBus.PublishAsync(new ForgotPasswordRequestedEvent
+            {
+                Email = user.Email,
+                Token = token
+            });
         }
 
         public async Task ResetPasswordAsync(ResetPasswordDto dto)
