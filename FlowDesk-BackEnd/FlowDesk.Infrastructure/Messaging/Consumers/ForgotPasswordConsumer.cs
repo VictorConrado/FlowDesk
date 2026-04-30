@@ -1,6 +1,7 @@
 ﻿using FlowDesk.Application.Events;
 using FlowDesk.Application.Interfaces;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -12,17 +13,17 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly IEmailService _emailService;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public ForgotPasswordConsumer(IEmailService emailService)
+        public ForgotPasswordConsumer(IServiceScopeFactory scopeFactory)
         {
-            _emailService = emailService;
+            _scopeFactory = scopeFactory;
 
-            Console.WriteLine("🚀 ForgotPasswordConsumer iniciado");
+            Console.WriteLine("ForgotPasswordConsumer iniciado");
 
             var factory = new ConnectionFactory()
             {
-                HostName = "localhost" // depois você pode mover pra config/env
+                HostName = "localhost"
             };
 
             _connection = factory.CreateConnection();
@@ -39,7 +40,7 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("👂 Consumer escutando fila...");
+            Console.WriteLine("Consumer escutando fila...");
 
             var consumer = new EventingBasicConsumer(_channel);
 
@@ -47,7 +48,7 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
             {
                 try
                 {
-                    Console.WriteLine("📥 Mensagem recebida!");
+                    Console.WriteLine("Mensagem recebida!");
 
                     var body = eventArgs.Body.ToArray();
                     var json = Encoding.UTF8.GetString(body);
@@ -56,7 +57,7 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
                     if (message == null)
                     {
-                        Console.WriteLine("❌ Mensagem inválida");
+                        Console.WriteLine("Mensagem inválida");
                         _channel.BasicAck(eventArgs.DeliveryTag, false);
                         return;
                     }
@@ -66,26 +67,31 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
                     var html = $@"
                         <h2>Recuperação de senha</h2>
                         <p>Clique no botão abaixo para redefinir sua senha:</p>
-                        <a href='{resetLink}' 
+                        <a href='{resetLink}'
                            style='display:inline-block;padding:10px 20px;background:#2563eb;color:#fff;border-radius:6px;text-decoration:none;'>
                            Resetar senha
                         </a>
                         <p>Se você não solicitou, ignore este email.</p>
                     ";
 
-                    await _emailService.SendAsync(
-                        message.Email,
-                        "Recuperação de senha - FlowDesk",
-                        html
-                    );
+                    using (var scope = _scopeFactory.CreateScope())
+                    {
+                        var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-                    Console.WriteLine("Email enviado com sucesso");
+                        await emailService.SendAsync(
+                            message.Email,
+                            "Recuperação de senha - FlowDesk",
+                            html
+                        );
+                    }
+
+                    Console.WriteLine("Email enviado");
 
                     _channel.BasicAck(eventArgs.DeliveryTag, false);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($" Erro ao processar mensagem: {ex.Message}");
+                    Console.WriteLine($"Erro ao processar mensagem: {ex.Message}");
 
                     _channel.BasicNack(eventArgs.DeliveryTag, false, false);
                 }
@@ -102,7 +108,7 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
         public override void Dispose()
         {
-            Console.WriteLine(" Encerrando consumer...");
+            Console.WriteLine("Encerrando consumer...");
 
             _channel?.Close();
             _connection?.Close();
