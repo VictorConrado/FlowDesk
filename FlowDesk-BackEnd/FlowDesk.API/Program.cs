@@ -91,6 +91,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddHostedService<ForgotPasswordConsumer>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 var app = builder.Build();
 

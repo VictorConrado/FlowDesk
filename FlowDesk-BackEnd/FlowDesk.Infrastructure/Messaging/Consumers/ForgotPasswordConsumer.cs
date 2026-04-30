@@ -1,4 +1,5 @@
 ﻿using FlowDesk.Application.Events;
+using FlowDesk.Application.Interfaces;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -11,12 +12,17 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private readonly IEmailService _emailService;
 
-        public ForgotPasswordConsumer()
+        public ForgotPasswordConsumer(IEmailService emailService)
         {
+            _emailService = emailService;
+
+            Console.WriteLine("🚀 ForgotPasswordConsumer iniciado");
+
             var factory = new ConnectionFactory()
             {
-                HostName = "localhost"
+                HostName = "localhost" // depois você pode mover pra config/env
             };
 
             _connection = factory.CreateConnection();
@@ -33,25 +39,56 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Console.WriteLine("👂 Consumer escutando fila...");
+
             var consumer = new EventingBasicConsumer(_channel);
 
-            consumer.Received += (sender, eventArgs) =>
+            consumer.Received += async (sender, eventArgs) =>
             {
-                var body = eventArgs.Body.ToArray();
-                var json = Encoding.UTF8.GetString(body);
+                try
+                {
+                    Console.WriteLine("📥 Mensagem recebida!");
 
-                var message = JsonSerializer.Deserialize<ForgotPasswordRequestedEvent>(json);
+                    var body = eventArgs.Body.ToArray();
+                    var json = Encoding.UTF8.GetString(body);
 
-                if (message == null)
-                    return;
+                    var message = JsonSerializer.Deserialize<ForgotPasswordRequestedEvent>(json);
 
-                var resetLink = $"http://localhost:5173/reset-password?token={message.Token}";
+                    if (message == null)
+                    {
+                        Console.WriteLine("❌ Mensagem inválida");
+                        _channel.BasicAck(eventArgs.DeliveryTag, false);
+                        return;
+                    }
 
-                Console.WriteLine("📩 EMAIL SIMULADO");
-                Console.WriteLine($"Para: {message.Email}");
-                Console.WriteLine($"Link: {resetLink}");
+                    var resetLink = $"http://localhost:5173/reset-password?token={message.Token}";
 
-                _channel.BasicAck(eventArgs.DeliveryTag, false);
+                    var html = $@"
+                        <h2>Recuperação de senha</h2>
+                        <p>Clique no botão abaixo para redefinir sua senha:</p>
+                        <a href='{resetLink}' 
+                           style='display:inline-block;padding:10px 20px;background:#2563eb;color:#fff;border-radius:6px;text-decoration:none;'>
+                           Resetar senha
+                        </a>
+                        <p>Se você não solicitou, ignore este email.</p>
+                    ";
+
+                    await _emailService.SendAsync(
+                        message.Email,
+                        "Recuperação de senha - FlowDesk",
+                        html
+                    );
+
+                    Console.WriteLine("Email enviado com sucesso");
+
+                    _channel.BasicAck(eventArgs.DeliveryTag, false);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($" Erro ao processar mensagem: {ex.Message}");
+
+                    _channel.BasicNack(eventArgs.DeliveryTag, false, false);
+                }
             };
 
             _channel.BasicConsume(
@@ -65,8 +102,11 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
         public override void Dispose()
         {
-            _channel.Close();
-            _connection.Close();
+            Console.WriteLine(" Encerrando consumer...");
+
+            _channel?.Close();
+            _connection?.Close();
+
             base.Dispose();
         }
     }
