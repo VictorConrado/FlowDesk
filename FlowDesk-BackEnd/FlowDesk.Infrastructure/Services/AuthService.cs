@@ -122,7 +122,7 @@ namespace FlowDesk.Infrastructure.Services
         .FirstOrDefaultAsync(u => u.ResetToken == dto.Token);
 
             if (user == null || user.ResetTokenExpiry < DateTime.UtcNow)
-                throw new Exception("Token inválido ou expirado");
+                throw new ApplicationException("Token inválido ou expirado");
 
             var hash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
 

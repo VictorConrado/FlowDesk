@@ -64,10 +64,10 @@ namespace FlowDesk.API.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto dto)
         {
             await _auth.ResetPasswordAsync(dto);
-            return Ok();
+            return Ok(new { message = "Senha alterada com sucesso"});
         }
     }
 }
