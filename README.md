@@ -54,7 +54,7 @@ O **FlowDesk** é um sistema de gerenciamento de tickets com arquitetura orienta
 
 * Broker: RabbitMQ
 * Exchange/Queue: baseada no nome do evento
-* Evento: `TicketCreatedEvent`
+* Evento: `TicketCreatedEvent`, `ForgotPasswordRequestedEvent`
 * Consumer: processamento assíncrono (ex.: logging, notificações futuras)
 
 ---
