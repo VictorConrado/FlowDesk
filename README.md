@@ -3,6 +3,7 @@
 ## 🧠 Visão Geral
 
 O **FlowDesk** é um sistema de gerenciamento de tickets com arquitetura orientada a domínio (DDD) e comunicação assíncrona via mensageria. O objetivo é simular um cenário corporativo real com autenticação, autorização por papel (RBAC) e fluxo de atendimento de chamados.
+Contendo testes xUnit.
 
 ---
 
@@ -266,6 +267,63 @@ senha: 123456
 * CRUD de tickets
 * Atribuição e fechamento
 * Mensageria com eventos
+---
+## 🧪 Testes Unitários
+
+O FlowDesk agora conta com uma camada de testes automatizados utilizando xUnit, garantindo maior confiabilidade nas regras de negócio e facilitando manutenção e evolução do sistema.
+
+---
+
+## 🧰 Tecnologias utilizadas
+
+- **xUnit** → framework de testes  
+- **Moq** → criação de mocks para dependências externas  
+- **FluentAssertions** → assertions mais legíveis  
+- **EF Core InMemory** → simulação de banco de dados para testes isolados  
+
+---
+
+## 🏗️ Estratégia de Testes
+
+Os testes foram construídos focando na camada de **Application (Services)**, validando:
+
+- Regras de negócio  
+- Fluxos críticos (auth, tickets)  
+- Publicação de eventos  
+- Tratamento de exceções  
+
+Para garantir isolamento, foi utilizada uma fábrica de contexto em memória:
+
+```csharp
+DbContextFactory.Create()
+```
+
+Cada teste roda com um banco isolado (InMemoryDatabase com GUID), evitando interferência entre execuções.
+
+---
+
+### 🔐 AuthService Tests
+
+Cobertura dos principais cenários:
+
+- Não permite registro com email duplicado
+- Não permite senha inválida
+- Login com credenciais inválidas
+- Geração de token de reset de senha
+- Publicação de evento (ForgotPasswordRequestedEvent)
+- Reset de senha com token válido
+
+---
+
+### 🎫 TicketService Tests
+
+Validação do fluxo de tickets:
+
+- Criação de ticket
+- Persistência correta no banco
+- Publicação de evento (TicketCreatedEvent)
+- Atribuição de ticket para técnico
+- Tratamento de erro ao buscar ticket inexistente
 ---
 
 Espero que tenham curtido 🎇
