@@ -11,6 +11,8 @@ namespace FlowDesk.Domain.Entities
     {
         public int Id { get; private set; }
 
+        public Guid Number { get; private set; }
+
         public string Title { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
 
@@ -26,12 +28,21 @@ namespace FlowDesk.Domain.Entities
         public TicketStatus Status { get; private set; }
         public TicketPriority Priority { get; private set; }
 
+        public string? ClosingComment { get; private set; }
+
+        public DateTime SLAExpiresAt { get; private set; }
+
         public DateTime CreatedAt { get; private set; }
+        public DateTime? ClosedAt { get; private set; }
+
+        public ICollection<TicketComment> Comments { get; private set; } = new List<TicketComment>();
 
         protected Ticket() { }
 
         public Ticket(string title, string description, int createdById, int categoryId, TicketPriority priority)
         {
+            Number = Guid.NewGuid();
+
             Title = title;
             Description = description;
             CreatedById = createdById;
@@ -39,23 +50,74 @@ namespace FlowDesk.Domain.Entities
             Priority = priority;
             Status = TicketStatus.Open;
             CreatedAt = DateTime.UtcNow;
+
+            SLAExpiresAt = CalculateSLA(priority);
+        }
+
+        private DateTime CalculateSLA(TicketPriority priority)
+        {
+            return priority switch
+            {
+                TicketPriority.Low => DateTime.UtcNow.AddHours(72),
+                TicketPriority.Medium => DateTime.UtcNow.AddHours(24),
+                TicketPriority.High => DateTime.UtcNow.AddHours(4),
+                _ => DateTime.UtcNow.AddHours(24)
+            };
         }
 
         public void AssignTo(int userId)
         {
             if (Status == TicketStatus.Closed)
-                throw new Exception("Não foi possivel atribuir um ticket fechado");
+                throw new Exception("Ticket encerrado");
             
             AssignedToId = userId;
             Status = TicketStatus.InProgress;
         }
 
-        public void Close()
+        public void ChangePriority(TicketPriority priority)
+        {
+            Priority = priority;
+
+            SLAExpiresAt = CalculateSLA(priority);
+        }
+
+        public void AddComment(int userId, string content)
+        {
+            Comments.Add(new TicketComment(Id, userId, content));
+        }
+
+        public void Close(int performedById, string closingComment)
         {
             if (Status == TicketStatus.Closed)
                 throw new Exception("O Ticket já está encerrado");
 
+            if (AssignedToId != performedById)
+                throw new Exception("Somente responsável pode fechar");
+
             Status = TicketStatus.Closed;
+
+            ClosingComment = closingComment;
+
+            ClosedAt = DateTime.UtcNow;
+        }
+
+        public void ForceClose(string closingComment)
+        {
+            Status = TicketStatus.Closed;
+
+            ClosingComment = closingComment;
+
+            ClosedAt = DateTime.UtcNow;
+        }
+
+        public void Reopen()
+        {
+            if (Status != TicketStatus.Closed)
+                throw new Exception("Ticket não está fechado");
+
+            Status = TicketStatus.InProgress;
+
+            ClosedAt = null;
         }
     }
 }
