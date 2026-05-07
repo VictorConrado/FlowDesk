@@ -2,140 +2,293 @@
 
 ## 🧠 Visão Geral
 
-O **FlowDesk** é um sistema de gerenciamento de tickets com arquitetura orientada a domínio (DDD) e comunicação assíncrona via mensageria. O objetivo é simular um cenário corporativo real com autenticação, autorização por papel (RBAC) e fluxo de atendimento de chamados.
-Contendo testes xUnit.
+O **FlowDesk** é um sistema de gerenciamento de tickets com arquitetura orientada a domínio (DDD) e comunicação assíncrona via mensageria.
+
+O objetivo é simular um cenário corporativo real com autenticação, autorização por papel (RBAC), fluxo completo de atendimento de chamados e regras de domínio robustas.
+
+O projeto também conta com testes automatizados utilizando xUnit.
 
 ---
 
-## 🏗️ Arquitetura (DDD)
+# 🏗️ Arquitetura (DDD)
 
-### Camadas
+## Camadas
 
-* **Domain** → Entidades, Value Objects, regras de negócio
-* **Application** → Serviços, DTOs, interfaces
-* **Infrastructure** → EF Core (MySQL), Mensageria (RabbitMQ)
-* **API** → Controllers (HTTP), Middlewares
-
-### Princípios aplicados
-
-* Separação de responsabilidades
-* Inversão de dependência
-* Baixo acoplamento
-* Alta coesão
+- **Domain** → Entidades, regras de negócio e enums
+- **Application** → Serviços, DTOs e interfaces
+- **Infrastructure** → EF Core, RabbitMQ e integrações externas
+- **API** → Controllers, autenticação e endpoints HTTP
 
 ---
 
-## 🔐 Autenticação & Autorização
+## Princípios aplicados
 
-* JWT (Bearer Token)
-* Token armazenado no localStorage (frontend)
-* Rotas protegidas
-* RBAC por `role`
-
-### Roles
-
-* **Admin**: fechar tickets, visualizar tudo
-* **Technician**: assumir tickets
-* **User**: criar e visualizar próprios tickets
+- Separação de responsabilidades
+- Inversão de dependência
+- Baixo acoplamento
+- Alta coesão
+- Regras centralizadas no domínio
 
 ---
 
-## 🎫 Fluxo de Tickets
+# 🔐 Autenticação & Autorização
+
+- JWT Bearer Token
+- Rotas protegidas
+- RBAC por roles
+- Autorização baseada em claims
+- Middleware de autenticação
+
+---
+
+## Roles
+
+### 👑 Admin
+
+- Visualiza todos os tickets
+- Fecha tickets
+- Reabre tickets
+- Altera prioridades
+- Gerencia usuários
+
+### 🛠️ Technician
+
+- Assume tickets
+- Gerencia atendimento
+- Fecha tickets atribuídos
+
+### 👤 User
+
+- Cria tickets
+- Visualiza próprios tickets
+- Adiciona comentários
+
+---
+
+# 🎫 Fluxo de Tickets
 
 1. Usuário cria ticket
 2. API persiste no banco
 3. Evento `TicketCreatedEvent` é publicado
-4. Consumer processa (log/notificação)
-5. Technician assume ticket
-6. Admin fecha ticket
+4. RabbitMQ processa mensagem
+5. Consumer consome evento
+6. Técnico assume ticket
+7. Responsável adiciona comentários
+8. Admin altera prioridade
+9. Ticket pode ser fechado
+10. Ticket pode ser reaberto
+11. Histórico de ações é registrado
 
 ---
 
-## 📡 Mensageria (Event-Driven)
+# 📡 Mensageria (Event-Driven)
 
-* Broker: RabbitMQ
-* Exchange/Queue: baseada no nome do evento
-* Evento: `TicketCreatedEvent`, `ForgotPasswordRequestedEvent`
-* Consumer: processamento assíncrono (ex.: logging, notificações futuras)
+## RabbitMQ
 
----
+O sistema utiliza comunicação assíncrona baseada em eventos.
 
-## 🌐 Frontend
+### Recursos implementados
 
-* React + TypeScript + Tailwind
-* Context API (Auth)
-* Axios (HTTP)
-* React Router (rotas protegidas)
-* Layout com Sidebar + Topbar
+- Publicação de eventos
+- Consumers assíncronos
+- Filas persistentes (`durable`)
+- Mensagens persistentes
+- Baixo acoplamento entre serviços
 
 ---
 
-## 🔗 Endpoints da API
+## Eventos
 
-### 🔐 Auth
-
-* `POST /api/auth/register`
-
-  * Body: `{ name, email, password, role }`
-  * Response: 201
-
-* `POST /api/auth/login`
-
-  * Body: `{ email, password }`
-  * Response: `{ token, name, role }`
+- `TicketCreatedEvent`
+- `ForgotPasswordRequestedEvent`
 
 ---
 
-### 👤 Users
+## Consumers
 
-* `GET /api/users`
+### TicketCreatedConsumer
 
-  * Admin only
+Responsável por consumir eventos de criação de ticket.
 
-* `GET /api/users/{id}`
+Exemplo atual:
 
----
-
-### 🎫 Tickets
-
-* `GET /api/tickets?page=1&pageSize=10`
-
-  * Lista paginada
-
-* `GET /api/tickets/{id}`
-
-* `POST /api/tickets`
-
-  * Body:
-
-  ```json
-  {
-    "title": "string",
-    "description": "string",
-    "categoryId": 1,
-    "priority": 2
-  }
-  ```
-
-* `PUT /api/tickets/{id}/assign`
-
-  * Technician assume ticket
-
-* `PUT /api/tickets/{id}/close`
-
-  * Admin fecha ticket
+- Logging
+- Base para notificações futuras
 
 ---
 
-### 🏷️ Categories
+# 🌐 Frontend
 
-* `GET /api/categories`
+## Stack
+
+- React
+- TypeScript
+- TailwindCSS
+- Axios
+- React Router
+- Context API
 
 ---
 
-## 🧭 Diagrama de Arquitetura (Profissional)
+## Funcionalidades
 
+- Login com JWT
+- Rotas protegidas
+- Contexto global de autenticação
+- Sidebar e Topbar
+- Dashboard
+- CRUD de tickets
+
+---
+
+# 🔗 Endpoints da API
+
+# 🔐 Auth
+
+## POST `/api/auth/register`
+
+### Body
+
+```json
+{
+  "name": "user",
+  "email": "user@email.com",
+  "password": "123456",
+  "role": "User"
+}
 ```
+
+---
+
+## POST `/api/auth/login`
+
+### Body
+
+```json
+{
+  "email": "user@email.com",
+  "password": "123456"
+}
+```
+
+### Response
+
+```json
+{
+  "token": "jwt-token",
+  "name": "user",
+  "role": "Admin"
+}
+```
+
+---
+
+# 👤 Users
+
+## GET `/api/users`
+
+Admin only
+
+---
+
+## GET `/api/users/{id}`
+
+Retorna usuário por ID
+
+---
+
+# 🎫 Tickets
+
+## GET `/api/tickets?page=1&pageSize=10`
+
+Lista paginada de tickets
+
+---
+
+## GET `/api/tickets/{id}`
+
+Retorna detalhes completos do ticket
+
+---
+
+## GET `/api/tickets/my-tickets`
+
+Retorna tickets do usuário autenticado
+
+---
+
+## POST `/api/tickets`
+
+### Body
+
+```json
+{
+  "title": "Erro no login",
+  "description": "Não consigo autenticar",
+  "categoryId": 1,
+  "priority": 2
+}
+```
+
+---
+
+## PUT `/api/tickets/{id}/assign`
+
+Atribui ticket para técnico
+
+---
+
+## PUT `/api/tickets/{id}/close`
+
+Fecha ticket
+
+---
+
+## PUT `/api/tickets/{id}/reopen`
+
+Reabre ticket
+
+---
+
+## PUT `/api/tickets/{id}/priority`
+
+Altera prioridade do ticket
+
+### Body
+
+```json
+{
+  "priority": "High"
+}
+```
+
+---
+
+## POST `/api/tickets/{id}/comments`
+
+Adiciona comentário ao ticket
+
+### Body
+
+```json
+{
+  "content": "Estamos analisando o problema"
+}
+```
+
+---
+
+# 🏷️ Categories
+
+## GET `/api/categories`
+
+Lista categorias disponíveis
+
+---
+
+# 🧭 Diagrama de Arquitetura
+
+```text
                 ┌────────────────────┐
                 │     Frontend       │
                 │ React + TS + TW    │
@@ -172,9 +325,9 @@ Contendo testes xUnit.
 
 ---
 
-## 🔄 Diagrama de Sequência (Criação de Ticket)
+# 🔄 Diagrama de Sequência
 
-```
+```text
 User → Frontend → API → Service → Repository → DB
                           ↓
                    Publish Event
@@ -186,9 +339,9 @@ User → Frontend → API → Service → Repository → DB
 
 ---
 
-## 🧩 Diagrama de Classes (Simplificado)
+# 🧩 Diagrama de Classes (Simplificado)
 
-```
+```text
 User
 - Id
 - Name
@@ -197,40 +350,73 @@ User
 
 Ticket
 - Id
+- Number
 - Title
 - Description
 - Status
 - Priority
-- UserId
+- CreatedById
+- AssignedToId
 
 Category
 - Id
 - Name
 
-Relationships:
-User 1 --- * Ticket
-Category 1 --- * Ticket
+TicketComment
+- Id
+- Content
+- UserId
+
+TicketHistory
+- Id
+- Action
+- PerformedById
 ```
 
 ---
-### 🚀 Tecnologias
 
-* .NET 9
-* MySQL
-* RabbitMQ
-* React + TypeScript
-* TailwindCSS
+# 🚀 Tecnologias
 
-### ⚙️ Como rodar
+## Backend
 
-#### Backend
+- .NET 9
+- ASP.NET Core
+- Entity Framework Core
+- MySQL
+- RabbitMQ
+- JWT Authentication
+
+---
+
+## Frontend
+
+- React
+- TypeScript
+- TailwindCSS
+
+---
+
+## Testes
+
+- xUnit
+- Moq
+- FluentAssertions
+- EF Core InMemory
+
+---
+
+# ⚙️ Como rodar o projeto
+
+## Backend
 
 ```bash
 cd FlowDesk.API
 dotnet run
 ```
 
-#### Frontend
+---
+
+## Frontend
 
 ```bash
 cd flowdesk-web
@@ -238,7 +424,9 @@ npm install
 npm run dev
 ```
 
-#### Docker (RabbitMQ)
+---
+
+## RabbitMQ (Docker)
 
 ```bash
 docker-compose up -d
@@ -246,84 +434,115 @@ docker-compose up -d
 
 ---
 
-### 🔐 Credenciais de teste
+# 🔐 Credenciais de teste
 
-```
-Admin:
+## 👑 Admin
+
+```text
 email: admin@flowdesk.com
 senha: 123456
+```
 
-Technician:
+---
+
+## 🛠️ Technician
+
+```text
 email: tech@flowdesk.com
 senha: 123456
 ```
 
 ---
 
-### 📸 Funcionalidades
+# 📸 Funcionalidades
 
-* Login com JWT
-* RBAC por role
-* CRUD de tickets
-* Atribuição e fechamento
-* Mensageria com eventos
----
-## 🧪 Testes Unitários
-
-O FlowDesk agora conta com uma camada de testes automatizados utilizando xUnit, garantindo maior confiabilidade nas regras de negócio e facilitando manutenção e evolução do sistema.
-
----
-
-## 🧰 Tecnologias utilizadas
-
-- **xUnit** → framework de testes  
-- **Moq** → criação de mocks para dependências externas  
-- **FluentAssertions** → assertions mais legíveis  
-- **EF Core InMemory** → simulação de banco de dados para testes isolados  
+- ✅ Login com JWT
+- ✅ RBAC por roles
+- ✅ CRUD de tickets
+- ✅ Comentários em tickets
+- ✅ Alteração de prioridade
+- ✅ Reabertura de tickets
+- ✅ Histórico de ações
+- ✅ RabbitMQ
+- ✅ Eventos assíncronos
+- ✅ Arquitetura DDD
+- ✅ Testes unitários
+- ✅ Fluxo corporativo de atendimento
 
 ---
 
-## 🏗️ Estratégia de Testes
+# 🧪 Testes Unitários
 
-Os testes foram construídos focando na camada de **Application (Services)**, validando:
-
-- Regras de negócio  
-- Fluxos críticos (auth, tickets)  
-- Publicação de eventos  
-- Tratamento de exceções  
-
-Para garantir isolamento, foi utilizada uma fábrica de contexto em memória:
-
-```csharp
-DbContextFactory.Create()
-```
-
-Cada teste roda com um banco isolado (InMemoryDatabase com GUID), evitando interferência entre execuções.
+O projeto possui cobertura de testes unitários focada na camada de serviços.
 
 ---
 
-### 🔐 AuthService Tests
+## Estratégia
 
-Cobertura dos principais cenários:
+Os testes validam:
 
-- Não permite registro com email duplicado
-- Não permite senha inválida
-- Login com credenciais inválidas
-- Geração de token de reset de senha
-- Publicação de evento (ForgotPasswordRequestedEvent)
-- Reset de senha com token válido
+- Regras de negócio
+- Fluxos críticos
+- Publicação de eventos
+- Tratamento de exceções
+- Persistência de dados
 
 ---
 
-### 🎫 TicketService Tests
+## Tecnologias utilizadas
 
-Validação do fluxo de tickets:
+- xUnit
+- Moq
+- FluentAssertions
+- EF Core InMemory
 
-- Criação de ticket
-- Persistência correta no banco
-- Publicação de evento (TicketCreatedEvent)
-- Atribuição de ticket para técnico
-- Tratamento de erro ao buscar ticket inexistente
 ---
 
-Espero que tenham curtido 🎇
+## TicketService Tests
+
+### Cobertura
+
+- Criação de tickets
+- Publicação de eventos
+- Atribuição de tickets
+- Reabertura
+- Fechamento com permissão
+- Alteração de prioridade
+- Adição de comentários
+- Histórico de ações
+- Tratamento de exceções
+
+---
+
+## AuthService Tests
+
+### Cobertura
+
+- Registro de usuário
+- Email duplicado
+- Login inválido
+- Reset de senha
+- Token de recuperação
+- Eventos de recuperação
+
+---
+
+# 🎇 Considerações
+
+O FlowDesk foi desenvolvido com foco em arquitetura limpa, regras de negócio reais e boas práticas utilizadas em sistemas corporativos modernos.
+
+O projeto simula cenários reais de suporte técnico utilizando:
+
+- DDD
+- Event-Driven Architecture
+- RabbitMQ
+- JWT
+- RBAC
+- Testes automatizados
+- Boas práticas de backend
+
+---
+
+# 👨‍💻 Autor
+
+Victor Conrado
