@@ -18,6 +18,8 @@ namespace FlowDesk.Infrastructure.Data
 
         public DbSet<TicketHistory> TicketHistories => Set<TicketHistory>();
 
+        public DbSet<TicketComment> TicketComments { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -35,6 +37,16 @@ namespace FlowDesk.Infrastructure.Data
                 new Category { Id = 2, Name = "RH" },
                 new Category { Id = 3, Name = "Financeiro" }
             );
+
+            builder.Entity<TicketComment>()
+                .HasOne(tc => tc.Ticket)
+                .WithMany(t => t.Comments)
+                .HasForeignKey(tc => tc.TicketId);
+
+            builder.Entity<TicketComment>()
+                .HasOne(tc => tc.User)
+                .WithMany()
+                .HasForeignKey(tc => tc.UserId);
         }
     }
 }

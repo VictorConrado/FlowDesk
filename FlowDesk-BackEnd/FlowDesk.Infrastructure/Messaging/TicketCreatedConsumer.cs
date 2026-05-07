@@ -24,7 +24,7 @@ namespace FlowDesk.Infrastructure.Messaging
 
             channel.QueueDeclare(
                 queue: "TicketCreatedEvent",
-                durable: false,
+                durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null

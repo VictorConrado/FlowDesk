@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FlowDesk.Application.DTOs.Ticket
+{
+    public class TicketDetailsDto
+    {
+        public int Id { get; set; }
+
+        public Guid Number { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public string Status { get; set; }
+
+        public string Priority { get; set; }
+
+        public string Category { get; set; }
+
+        public string OpenedBy { get; set; }
+
+        public string? AssignedTo { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? ClosedAt { get; set; }
+
+        public DateTime SLAExpiresAt { get; set; }
+
+        public string? ClosingComment { get; set; }
+
+        public List<TicketCommentDto> Comments { get; set; }
+            = new();
+    }
+}
