@@ -1,3 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 77, 109, 0.18),
+      transparent 22%
+    ),
+
+    radial-gradient(
+      circle at top right,
+      rgba(255, 209, 102, 0.12),
+      transparent 24%
+    ),
+
+    radial-gradient(
+      circle at bottom left,
+      rgba(6, 214, 160, 0.10),
+      transparent 26%
+    ),
+
+    radial-gradient(
+      circle at bottom right,
+      rgba(255, 138, 61, 0.14),
+      transparent 28%
+    ),
+
+    #050816;
+}
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -1;
+
+  opacity: 0.18;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px
+    );
+
+  background-size: 60px 60px;
+}
+
+body::after {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(0,0,0,0.35) 100%
+    );
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b1023;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,77,109,0.95),
+      rgba(255,138,61,0.95)
+    );
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,77,109,1),
+      rgba(255,138,61,1)
+    );
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* =========================
+   REUSABLE CLASSES
+========================= */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.10);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+.neon-border {
+  border: 1px solid rgba(255, 138, 61, 0.35);
+
+  box-shadow:
+    0 0 14px rgba(255, 138, 61, 0.15);
+}
+
+.input-galaxy {
+  width: 100%;
+
+  border-radius: 16px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  background: rgba(255,255,255,0.05);
+
+  padding: 0.95rem 1rem;
+
+  color: white;
+
+  outline: none;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.input-galaxy::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+.input-galaxy:focus {
+  border-color: rgba(255, 138, 61, 0.65);
+
+  background: rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 0 0 4px rgba(255, 138, 61, 0.12),
+    0 0 20px rgba(255, 138, 61, 0.15);
+}
+
+/* =========================
+   PRIORITY GLOW
+========================= */
+
+.priority-high-hover:hover {
+  border-color: rgba(255,77,109,0.65);
+
+  box-shadow:
+    0 0 12px rgba(255,77,109,0.35),
+    0 0 24px rgba(255,77,109,0.25);
+}
+
+.priority-medium-hover:hover {
+  border-color: rgba(255,209,102,0.65);
+
+  box-shadow:
+    0 0 12px rgba(255,209,102,0.35),
+    0 0 24px rgba(255,209,102,0.25);
+}
+
+.priority-low-hover:hover {
+  border-color: rgba(6,214,160,0.65);
+
+  box-shadow:
+    0 0 12px rgba(6,214,160,0.35),
+    0 0 24px rgba(6,214,160,0.25);
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge-high {
+  background: rgba(255,77,109,0.15);
+  color: #ff4d6d;
+  border: 1px solid rgba(255,77,109,0.35);
+}
+
+.badge-medium {
+  background: rgba(255,209,102,0.15);
+  color: #ffd166;
+  border: 1px solid rgba(255,209,102,0.35);
+}
+
+.badge-low {
+  background: rgba(6,214,160,0.15);
+  color: #06d6a0;
+  border: 1px solid rgba(6,214,160,0.35);
+}
+
+.badge-open {
+  background: rgba(255,138,61,0.15);
+  color: #ff8a3d;
+  border: 1px solid rgba(255,138,61,0.35);
+}
+
+.badge-progress {
+  background: rgba(76,201,240,0.15);
+  color: #4cc9f0;
+  border: 1px solid rgba(76,201,240,0.35);
+}
+
+.badge-closed {
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}

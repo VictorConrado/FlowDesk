@@ -3,7 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Tickets from "./pages/Tickets";
-import Admin from "./pages/Admin"; // 👈 novo
+import Admin from "./pages/Admin";
+import TicketDetails from "./pages/TicketDetails";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -17,6 +18,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/tickets/:id" element={<TicketDetails />} />
        
       <Route
         path="/profile"

@@ -87,6 +87,7 @@ namespace FlowDesk.Infrastructure.Services
 
             return new AuthResponseDto
             {
+                Id = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Name = user.Name,
                 Role = user.Role?.Name ?? "Employee"

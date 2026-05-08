@@ -1,168 +1,563 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { api } from "../services/api";
-import { Eye, EyeOff } from "lucide-react";
-import axios from "axios";
+import {
+  useContext,
+  useState,
+} from "react";
 
-type RegisterErrorResponse = {
-  message?: string;
-};
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+  Rocket,
+  User,
+} from "lucide-react";
+
+import { AuthContext } from "../context/AuthContext";
 
 export default function Register() {
   const navigate = useNavigate();
 
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const { register } =
+    useContext(AuthContext);
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
+  const [name, setName] =
+    useState<string>("");
+
+  const [email, setEmail] =
+    useState<string>("");
+
+  const [password, setPassword] =
+    useState<string>("");
+
+  const [confirmPassword, setConfirmPassword] =
+    useState<string>("");
+
+  const [showPassword, setShowPassword] =
     useState<boolean>(false);
 
-  const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [
+    showConfirmPassword,
+    setShowConfirmPassword,
+  ] = useState<boolean>(false);
 
-  async function handleRegister(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError("");
+  const [loading, setLoading] =
+    useState<boolean>(false);
 
-    if (password !== confirmPassword) {
-      setError("As senhas não coincidem");
-      return;
-    }
+  const [error, setError] =
+    useState<string>("");
 
-    if (password.length < 6) {
-      setError("A senha deve ter pelo menos 6 caracteres");
-      return;
-    }
+  async function handleRegister(
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
+    event.preventDefault();
 
     try {
+      setError("");
+
+      if (
+        password !==
+        confirmPassword
+      ) {
+        setError(
+          "As senhas não coincidem."
+        );
+
+        return;
+      }
+
       setLoading(true);
 
-      await api.post("/auth/register", {
+      await register(
         name,
         email,
-        password,
-      });
+        password
+      );
 
-      navigate("/");
-    } catch (err: unknown) {
-      if (axios.isAxiosError<RegisterErrorResponse>(err)) {
-        const message =
-          err.response?.data?.message || "Erro ao criar conta";
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
 
-        setError(message);
-      } else {
-        setError("Erro inesperado");
-      }
+      setError(
+        "Não foi possível criar sua conta."
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
-      <form
-        onSubmit={handleRegister}
-        className="bg-[#1e293b] p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-700"
+    <div
+      className="
+        relative
+        flex
+        min-h-screen
+        items-center
+        justify-center
+        overflow-hidden
+        px-4
+        py-10
+      "
+    >
+      {/* BACKGROUND */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          overflow-hidden
+        "
       >
-        <h1 className="text-2xl font-semibold mb-6 text-center text-slate-100">
-          Criar conta
-        </h1>
-
-        <input
-          type="text"
-          placeholder="Nome"
-          className="w-full mb-3 p-3 rounded-lg bg-[#0f172a] border border-slate-600 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={name}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setName(e.target.value)
-          }
-          required
+        <div
+          className="
+            absolute
+            -left-44
+            -top-44
+            h-[430px]
+            w-[430px]
+            rounded-full
+            bg-red-500/10
+            blur-3xl
+          "
         />
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-3 p-3 rounded-lg bg-[#0f172a] border border-slate-600 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={email}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-          required
+        <div
+          className="
+            absolute
+            right-0
+            top-0
+            h-[420px]
+            w-[420px]
+            rounded-full
+            bg-orange-500/10
+            blur-3xl
+          "
         />
 
-        <div className="relative mb-3">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Senha"
-            className="w-full p-3 pr-10 rounded-lg bg-[#0f172a] border border-slate-600 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-            required
-          />
+        <div
+          className="
+            absolute
+            bottom-0
+            left-1/3
+            h-[300px]
+            w-[300px]
+            rounded-full
+            bg-green-500/10
+            blur-3xl
+          "
+        />
+      </div>
 
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-3 text-slate-400 hover:text-slate-200"
+      {/* CARD */}
+      <div
+        className="
+          glass-card
+          relative
+          z-10
+          w-full
+          max-w-lg
+          overflow-hidden
+          rounded-[32px]
+          border
+          border-white/10
+          p-8
+        "
+      >
+        {/* GLOW */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            bg-gradient-to-br
+            from-orange-500/5
+            via-transparent
+            to-red-500/5
+          "
+        />
+
+        {/* HEADER */}
+        <div className="relative z-10">
+          <div
+            className="
+              mx-auto
+              flex
+              h-20
+              w-20
+              items-center
+              justify-center
+              rounded-[28px]
+              border
+              border-orange-500/20
+              bg-gradient-to-br
+              from-orange-500/20
+              to-red-500/20
+              text-orange-300
+              shadow-neonOrange
+            "
           >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
-
-        <div className="relative mb-3">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder="Confirmar senha"
-            className="w-full p-3 pr-10 rounded-lg bg-[#0f172a] border border-slate-600 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setConfirmPassword(e.target.value)
-            }
-            required
-          />
-
-          <button
-            type="button"
-            onClick={() =>
-              setShowConfirmPassword((prev) => !prev)
-            }
-            className="absolute right-3 top-3 text-slate-400 hover:text-slate-200"
-          >
-            {showConfirmPassword ? (
-              <EyeOff size={18} />
-            ) : (
-              <Eye size={18} />
-            )}
-          </button>
-        </div>
-
-        {error && (
-          <div className="bg-red-500/10 text-red-400 text-sm p-2 rounded mb-3 border border-red-500/20">
-            {error}
+            <Rocket size={34} />
           </div>
-        )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition disabled:opacity-60"
+          <h1
+            className="
+              mt-6
+              text-center
+              text-3xl
+              font-extrabold
+              tracking-[0.15em]
+              text-white
+            "
+          >
+            CRIAR CONTA
+          </h1>
+
+          <p
+            className="
+              mt-3
+              text-center
+              text-sm
+              leading-relaxed
+              text-white/60
+            "
+          >
+            Registre-se para acessar o
+            núcleo galáctico do FlowDesk.
+          </p>
+        </div>
+
+        {/* FORM */}
+        <form
+          onSubmit={handleRegister}
+          className="
+            relative
+            z-10
+            mt-8
+            flex
+            flex-col
+            gap-5
+          "
         >
-          {loading ? "Cadastrando..." : "Cadastrar"}
-        </button>
+          {/* NAME */}
+          <div>
+            <label
+              className="
+                mb-2
+                block
+                text-xs
+                uppercase
+                tracking-[0.2em]
+                text-orange-300
+              "
+            >
+              Nome
+            </label>
 
-        <div className="mt-4 text-sm text-center text-slate-400">
-          Já tem conta?{" "}
-          <Link to="/" className="text-blue-400 hover:underline">
-            Entrar
+            <div className="relative">
+              <User
+                size={18}
+                className="
+                  absolute
+                  left-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-white/40
+                "
+              />
+
+              <input
+                type="text"
+                placeholder="Digite seu nome"
+                value={name}
+                onChange={(e) =>
+                  setName(
+                    e.target.value
+                  )
+                }
+                required
+                className="
+                  input-galaxy
+                  pl-12
+                "
+              />
+            </div>
+          </div>
+
+          {/* EMAIL */}
+          <div>
+            <label
+              className="
+                mb-2
+                block
+                text-xs
+                uppercase
+                tracking-[0.2em]
+                text-orange-300
+              "
+            >
+              E-mail
+            </label>
+
+            <div className="relative">
+              <Mail
+                size={18}
+                className="
+                  absolute
+                  left-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-white/40
+                "
+              />
+
+              <input
+                type="email"
+                placeholder="Digite seu e-mail"
+                value={email}
+                onChange={(e) =>
+                  setEmail(
+                    e.target.value
+                  )
+                }
+                required
+                className="
+                  input-galaxy
+                  pl-12
+                "
+              />
+            </div>
+          </div>
+
+          {/* PASSWORD */}
+          <div>
+            <label
+              className="
+                mb-2
+                block
+                text-xs
+                uppercase
+                tracking-[0.2em]
+                text-orange-300
+              "
+            >
+              Senha
+            </label>
+
+            <div className="relative">
+              <Lock
+                size={18}
+                className="
+                  absolute
+                  left-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-white/40
+                "
+              />
+
+              <input
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
+                placeholder="Digite sua senha"
+                value={password}
+                onChange={(e) =>
+                  setPassword(
+                    e.target.value
+                  )
+                }
+                required
+                className="
+                  input-galaxy
+                  pl-12
+                  pr-12
+                "
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowPassword(
+                    (prev) => !prev
+                  )
+                }
+                className="
+                  absolute
+                  right-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-white/40
+                  transition-colors
+                  hover:text-orange-300
+                "
+              >
+                {showPassword ? (
+                  <EyeOff size={18} />
+                ) : (
+                  <Eye size={18} />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* CONFIRM PASSWORD */}
+          <div>
+            <label
+              className="
+                mb-2
+                block
+                text-xs
+                uppercase
+                tracking-[0.2em]
+                text-orange-300
+              "
+            >
+              Confirmar Senha
+            </label>
+
+            <div className="relative">
+              <Lock
+                size={18}
+                className="
+                  absolute
+                  left-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-white/40
+                "
+              />
+
+              <input
+                type={
+                  showConfirmPassword
+                    ? "text"
+                    : "password"
+                }
+                placeholder="Confirme sua senha"
+                value={
+                  confirmPassword
+                }
+                onChange={(e) =>
+                  setConfirmPassword(
+                    e.target.value
+                  )
+                }
+                required
+                className="
+                  input-galaxy
+                  pl-12
+                  pr-12
+                "
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowConfirmPassword(
+                    (prev) => !prev
+                  )
+                }
+                className="
+                  absolute
+                  right-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-white/40
+                  transition-colors
+                  hover:text-orange-300
+                "
+              >
+                {showConfirmPassword ? (
+                  <EyeOff size={18} />
+                ) : (
+                  <Eye size={18} />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* ERROR */}
+          {error && (
+            <div
+              className="
+                rounded-2xl
+                border
+                border-red-500/20
+                bg-red-500/10
+                px-4
+                py-3
+                text-sm
+                text-red-300
+              "
+            >
+              {error}
+            </div>
+          )}
+
+          {/* SUBMIT */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="
+              primary-button
+              mt-2
+              flex
+              items-center
+              justify-center
+              gap-3
+              px-5
+              py-4
+              text-sm
+              uppercase
+              tracking-[0.15em]
+            "
+          >
+            {loading
+              ? "Criando conta..."
+              : "Registrar"}
+          </button>
+        </form>
+
+        {/* FOOTER */}
+        <div
+          className="
+            relative
+            z-10
+            mt-8
+            text-center
+          "
+        >
+          <p
+            className="
+              text-sm
+              text-white/55
+            "
+          >
+            Já possui uma conta?
+          </p>
+
+          <Link
+            to="/"
+            className="
+              mt-2
+              inline-block
+              text-sm
+              font-medium
+              text-orange-300
+              transition-colors
+              hover:text-orange-200
+            "
+          >
+            Fazer login
           </Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
