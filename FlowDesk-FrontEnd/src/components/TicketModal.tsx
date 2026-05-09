@@ -292,25 +292,27 @@ export default function TicketModal({
   }
 
   async function handleAssign() {
-    try {
-      setLoading(true);
+  try {
+    console.log("USER:", user);
 
-      await api.put(
-        `/tickets/${ticketData.id}/assign`,
-        {
-          technicianId: user?.id,
-        }
-      );
+    setLoading(true);
 
-      await onUpdated();
+    await api.put(
+      `/tickets/${ticketData.id}/assign`,
+      {
+        technicianId: user?.id,
+      }
+    );
 
-      await fetchTicket();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    await onUpdated();
+
+    await fetchTicket();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <div

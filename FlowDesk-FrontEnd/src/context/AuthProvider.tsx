@@ -20,8 +20,11 @@ interface Props {
 }
 
 interface JwtPayload {
-  unique_name: string;
-  role: string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
+
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string;
+
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
 }
 
 export function AuthProvider({
@@ -41,8 +44,21 @@ export function AuthProvider({
           jwtDecode<JwtPayload>(token);
 
         return {
-          name: decoded.unique_name,
-          role: decoded.role,
+          id: Number(
+            decoded[
+              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+            ]
+          ),
+
+          name:
+            decoded[
+              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+            ],
+
+          role:
+            decoded[
+              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ],
         };
       } catch {
         localStorage.removeItem(
@@ -72,6 +88,7 @@ export function AuthProvider({
     );
 
     setUser({
+      id: response.data.id,
       name: response.data.name,
       role: response.data.role,
     });

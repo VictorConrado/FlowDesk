@@ -137,9 +137,9 @@ namespace FlowDesk.Infrastructure.Services
                 throw new Exception("Ticket não encontrado");
 
             var technician = await _context.Users
-               .FirstOrDefaultAsync(u =>
-                   u.Id == technicianId &&
-                   (u.Role.Name == "Admin" || u.Role.Name == "Technician"));
+             .FirstOrDefaultAsync(u =>
+                 u.Id == technicianId &&
+                 (u.RoleId == 1 || u.RoleId == 3));
 
             if (technician == null)
                 throw new Exception("Usuário inválido para atribuição");

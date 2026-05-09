@@ -49,9 +49,10 @@ namespace FlowDesk.API.Controllers
 
         [Authorize(Roles = "Admin,Technician")]
         [HttpPut("{id}/assign")]
-        public async Task<IActionResult> Assign(int id, AssingTicketDto dto)
+        public async Task<IActionResult> Assign(int id,[FromBody] AssingTicketDto dto)
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            if (dto.TechnicianId <= 0)
+                return BadRequest("TechnicianId inválido");
 
             await _service.AssignAsync(id, dto.TechnicianId);
 
