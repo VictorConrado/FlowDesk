@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -64,6 +65,12 @@ interface Ticket {
   closingComment?: string | null;
 
   comments: TicketComment[];
+}
+
+interface SystemUser {
+  id: number;
+  name: string;
+  role: string;
 }
 
 interface Props {
@@ -180,24 +187,66 @@ export default function TicketModal({
   const [closingComment, setClosingComment] =
     useState<string>("");
 
+  const [reopenComment, setReopenComment] =
+    useState<string>("");
+
   const [loading, setLoading] =
     useState<boolean>(false);
 
-  async function fetchTicket() {
-    try {
-      const response = await api.get(
-        `/tickets/${ticket.id}`
-      );
+  const [users, setUsers] =
+    useState<SystemUser[]>([]);
 
-      setTicketData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const [selectedUserId, setSelectedUserId] =
+    useState<number | "">("");
+
+  const fetchTicket = useCallback(
+    async () => {
+      try {
+        const response = await api.get(
+          `/tickets/${ticket.id}`
+        );
+
+        setTicketData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [ticket.id]
+  );
+
+  const fetchUsers = useCallback(
+    async () => {
+      try {
+        const response =
+          await api.get("/user");
+
+        const filteredUsers =
+          response.data.filter(
+            (u: SystemUser) =>
+              u.role === "Admin" ||
+              u.role ===
+                "Technician"
+          );
+
+        setUsers(filteredUsers);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     fetchTicket();
-  }, []);
+
+    if (user?.role === "Admin") {
+      fetchUsers();
+    }
+  }, [
+    fetchTicket,
+    fetchUsers,
+    user?.role,
+  ]);
 
   const sla = useMemo(
     () => getSla(ticketData),
@@ -215,9 +264,10 @@ export default function TicketModal({
     ticketData.status === "Closed";
 
   const canAssign =
+    ticketData.status !== "Closed" &&
     (user?.role === "Admin" ||
-      user?.role === "Technician") &&
-    !ticketData.assignedTo;
+      user?.role ===
+        "Technician");
 
   async function handleComment() {
     if (!comment.trim()) return;
@@ -272,12 +322,25 @@ export default function TicketModal({
   }
 
   async function handleReopen() {
+    if (!reopenComment.trim()) {
+      return;
+    }
+
     try {
       setLoading(true);
 
       await api.put(
         `/tickets/${ticketData.id}/reopen`
       );
+
+      await api.post(
+        `/tickets/${ticketData.id}/comments`,
+        {
+          content: `${user?.name} reabriu o chamado: ${reopenComment}`,
+        }
+      );
+
+      setReopenComment("");
 
       await onUpdated();
 
@@ -292,27 +355,53 @@ export default function TicketModal({
   }
 
   async function handleAssign() {
-  try {
-    console.log("USER:", user);
+    try {
+      setLoading(true);
 
-    setLoading(true);
+      let technicianId = user?.id;
 
-    await api.put(
-      `/tickets/${ticketData.id}/assign`,
-      {
-        technicianId: user?.id,
+      if (
+        user?.role === "Admin" &&
+        selectedUserId
+      ) {
+        technicianId = Number(
+          selectedUserId
+        );
       }
-    );
 
-    await onUpdated();
+      if (!technicianId) return;
 
-    await fetchTicket();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
+      const assignedUser =
+        users.find(
+          (u) =>
+            u.id === technicianId
+        );
+
+      await api.put(
+        `/tickets/${ticketData.id}/assign`,
+        {
+          technicianId,
+        }
+      );
+
+      if (assignedUser) {
+        await api.post(
+          `/tickets/${ticketData.id}/comments`,
+          {
+            content: `${assignedUser.name} adicionado como responsável pelo chamado`,
+          }
+        );
+      }
+
+      await onUpdated();
+
+      await fetchTicket();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
-}
 
   return (
     <div
@@ -374,8 +463,7 @@ export default function TicketModal({
                     text-slate-500
                   "
                 >
-                  Ticket #
-                  {ticketData.id}
+                  Ticket #{ticketData.id}
                 </p>
 
                 <h2
@@ -525,10 +613,78 @@ export default function TicketModal({
                 </h3>
               </div>
 
-              <p className="mt-3 text-white">
-                {ticketData.assignedTo ??
-                  "Não atribuído"}
-              </p>
+              {user?.role === "Admin" &&
+              ticketData.status !==
+                "Closed" ? (
+                <div className="mt-4 space-y-3">
+                  <select
+                    value={
+                      selectedUserId
+                    }
+                    onChange={(e) =>
+                      setSelectedUserId(
+                        Number(
+                          e.target.value
+                        )
+                      )
+                    }
+                    className="
+                      w-full rounded-2xl
+                      border border-white/10
+                      bg-[#050816]/80 p-3
+                      text-white outline-none
+                    "
+                  >
+                    <option value="">
+                      Selecione um
+                      responsável
+                    </option>
+
+                    {users.map((u) => (
+                      <option
+                        key={u.id}
+                        value={u.id}
+                      >
+                        {u.name} (
+                        {u.role})
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    disabled={
+                      loading ||
+                      !selectedUserId
+                    }
+                    onClick={
+                      handleAssign
+                    }
+                    className="
+                      rounded-2xl
+                      bg-orange-500/20
+                      px-4 py-2
+                      text-sm font-semibold
+                      text-orange-200
+                      transition-all
+                      hover:bg-orange-500/30
+                      disabled:opacity-50
+                    "
+                  >
+                    Delegar responsável
+                  </button>
+
+                  <p className="text-sm text-slate-400">
+                    Atual:{" "}
+                    {ticketData.assignedTo ??
+                      "Não atribuído"}
+                  </p>
+                </div>
+              ) : (
+                <p className="mt-3 text-white">
+                  {ticketData.assignedTo ??
+                    "Não atribuído"}
+                </p>
+              )}
             </div>
           </div>
 
@@ -600,14 +756,17 @@ export default function TicketModal({
                           text-slate-300
                         "
                       >
-                        {comment.content}
+                        {
+                          comment.content
+                        }
                       </p>
                     </div>
                   )
                 )
               ) : (
                 <p className="text-slate-400">
-                  Nenhum comentário ainda.
+                  Nenhum comentário
+                  ainda.
                 </p>
               )}
             </div>
@@ -688,46 +847,81 @@ export default function TicketModal({
                   text-red-100/80
                 "
               >
-                {ticketData.closingComment}
+                {
+                  ticketData.closingComment
+                }
               </p>
             </div>
           )}
 
           <div className="flex flex-wrap gap-4">
-            {canAssign && (
-              <button
-                disabled={loading}
-                onClick={handleAssign}
-                className="
-                  rounded-2xl border
-                  border-orange-500/30
-                  bg-orange-500/15
-                  px-6 py-3 font-semibold
-                  text-orange-200 transition-all
-                  hover:border-orange-400/60
-                  hover:bg-orange-500/25
-                "
-              >
-                Assumir Ticket
-              </button>
-            )}
+            {canAssign &&
+              user?.role ===
+                "Technician" && (
+                <button
+                  disabled={loading}
+                  onClick={
+                    handleAssign
+                  }
+                  className="
+                    rounded-2xl border
+                    border-orange-500/30
+                    bg-orange-500/15
+                    px-6 py-3 font-semibold
+                    text-orange-200 transition-all
+                    hover:border-orange-400/60
+                    hover:bg-orange-500/25
+                  "
+                >
+                  Assumir Ticket
+                </button>
+              )}
 
             {canReopen && (
-              <button
-                disabled={loading}
-                onClick={handleReopen}
-                className="
-                  rounded-2xl border
-                  border-green-500/30
-                  bg-green-500/15
-                  px-6 py-3 font-semibold
-                  text-green-200 transition-all
-                  hover:border-green-400/60
-                  hover:bg-green-500/25
-                "
-              >
-                Reabrir Ticket
-              </button>
+              <div className="w-full space-y-4">
+                <textarea
+                  value={
+                    reopenComment
+                  }
+                  onChange={(e) =>
+                    setReopenComment(
+                      e.target.value
+                    )
+                  }
+                  rows={3}
+                  placeholder="Comentário obrigatório para reabertura..."
+                  className="
+                    w-full rounded-2xl
+                    border border-green-500/20
+                    bg-[#050816]/80 p-4
+                    text-white outline-none
+                    placeholder:text-slate-500
+                  "
+                />
+
+                <button
+                  disabled={
+                    loading ||
+                    !reopenComment.trim()
+                  }
+                  onClick={
+                    handleReopen
+                  }
+                  className="
+                    rounded-2xl border
+                    border-green-500/30
+                    bg-green-500/15
+                    px-6 py-3 font-semibold
+                    text-green-200 transition-all
+                    hover:border-green-400/60
+                    hover:bg-green-500/25
+                    disabled:cursor-not-allowed
+                    disabled:opacity-50
+                  "
+                >
+                  Reabrir Ticket
+                </button>
+              </div>
             )}
           </div>
 
@@ -753,7 +947,9 @@ export default function TicketModal({
               </div>
 
               <textarea
-                value={closingComment}
+                value={
+                  closingComment
+                }
                 onChange={(e) =>
                   setClosingComment(
                     e.target.value
@@ -779,7 +975,9 @@ export default function TicketModal({
                   loading ||
                   !closingComment.trim()
                 }
-                onClick={handleCloseTicket}
+                onClick={
+                  handleCloseTicket
+                }
                 className="
                   mt-5 rounded-2xl
                   bg-gradient-to-r
