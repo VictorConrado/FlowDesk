@@ -41,7 +41,7 @@ interface TicketComment {
 
 interface Ticket {
   id: number;
-  number: string;
+  number?: string;
 
   title: string;
   description: string;

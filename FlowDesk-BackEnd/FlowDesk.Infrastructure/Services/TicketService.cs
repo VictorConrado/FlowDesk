@@ -67,24 +67,31 @@ namespace FlowDesk.Infrastructure.Services
 
         public async Task<IEnumerable<TicketResponseDto>> GetAllAsync(int page, int pageSize)
         {
-            var tickets = await _context.Tickets
-                .Include(t => t.Category)
-                .Include(t => t.AssignedTo)
-                .Include(t => t.CreatedBy)
-                .OrderByDescending(t => t.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            return await _context.Tickets
+               .Include(t => t.Category)
+               .Include(t => t.AssignedTo)
+               .Include(t => t.CreatedBy)
+               .OrderByDescending(t => t.CreatedAt)
+               .Skip((page - 1) * pageSize)
+               .Take(pageSize)
+               .Select(t => new TicketResponseDto
+               {
+                   Id = t.Id,
+                   Title = t.Title,
+                   Status = t.Status.ToString(),
+                   Priority = t.Priority.ToString(),
+                   Category = t.Category.Name,
 
-            return tickets.Select(t => new TicketResponseDto
-            {
-                Id = t.Id,
-                Title = t.Title,
-                Status = t.Status.ToString(),
-                Priority = t.Priority.ToString(),
-                Category = t.Category.Name
-            });
+                   OpenedBy = t.CreatedBy.Name,
 
+                   AssignedTo = t.AssignedTo != null
+                       ? t.AssignedTo.Name
+                       : null,
+
+                   CreatedAt = t.CreatedAt,
+                   SLAExpiresAt = t.SLAExpiresAt
+               })
+               .ToListAsync();
         }
 
         public async Task<TicketDetailsDto> GetByIdAsync(int id)
