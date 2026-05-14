@@ -30,21 +30,21 @@ const sidebarItems: SidebarItem[] = [
     label: "Dashboard",
     path: "/dashboard",
     icon: LayoutDashboard,
-    roles: ["User", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin"],
   },
 
   {
     label: "Tickets",
     path: "/tickets",
     icon: Ticket,
-    roles: ["User", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin"],
   },
 
   {
     label: "Perfil",
     path: "/profile",
     icon: UserCircle,
-    roles: ["User", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin"],
   },
 
   {

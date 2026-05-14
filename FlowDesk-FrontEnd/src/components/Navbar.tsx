@@ -29,21 +29,21 @@ const navItems: NavItem[] = [
     label: "Dashboard",
     path: "/dashboard",
     icon: LayoutDashboard,
-    roles: ["User", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin"],
   },
 
   {
     label: "Tickets",
     path: "/tickets",
     icon: Ticket,
-    roles: ["User", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin"],
   },
 
   {
     label: "Perfil",
     path: "/profile",
     icon: UserCircle,
-    roles: ["User", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin"],
   },
 
   {
@@ -92,7 +92,7 @@ export default function Navbar() {
   const visibleItems = navItems.filter(
     (item) =>
       item.roles.includes(
-        user?.role ?? "User"
+        user?.role ?? "Employee"
       )
   );
 

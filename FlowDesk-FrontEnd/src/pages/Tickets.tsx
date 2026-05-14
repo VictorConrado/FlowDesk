@@ -35,7 +35,6 @@ interface TicketComment {
   createdAt: string;
 }
 
-// Interface ajustada para suportar possíveis retornos do backend
 interface Ticket {
   id: number;
   number?: string;
@@ -44,14 +43,14 @@ interface Ticket {
   status: TicketStatus | string;
   priority: TicketPriority | string;
   category?: string;
-  openedBy?: string; // Nome em string direta
-  assignedTo?: string | null; // Nome em string direta
-  createdAt?: string; // Alterado para opcional para evitar crash
+  openedBy?: string; 
+  assignedTo?: string | null; 
+  createdAt?: string; 
   closedAt?: string | null;
   slaExpiresAt?: string | null;
   comments?: TicketComment[];
   closingComment?: string | null;
-  // Objetos aninhados caso o backend use Includes/Joins
+
   user?: { name: string };
   assignedUser?: { name: string };
 }
@@ -117,7 +116,6 @@ function normalizeStatus(status?: string): TicketStatus {
   return "Open";
 }
 
-// Lógica de SLA Refatorada e Segura
 function getSla(ticket: Ticket) {
   if (!ticket.slaExpiresAt) {
     return {
@@ -172,7 +170,7 @@ export default function Tickets() {
   const [createModal, setCreateModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [categoryId, setCategoryId] = useState(""); // Ajustado para ID
+  const [categoryId, setCategoryId] = useState("");
   const [priority, setPriority] = useState<TicketPriority>("Medium");
 
   const fetchTickets = useCallback(async () => {
@@ -214,7 +212,7 @@ export default function Tickets() {
 
   async function handleCreateTicket() {
     try {
-      // Mapeamento para o CreateTicketDto do Backend (inteiros)
+     
       const priorityMap: Record<TicketPriority, number> = {
         Low: 1,
         Medium: 2,
@@ -224,8 +222,8 @@ export default function Tickets() {
       await api.post("/tickets", {
         title,
         description,
-        categoryId: parseInt(categoryId) || 1, // Envia como int32
-        priority: priorityMap[priority],       // Envia como int32
+        categoryId: parseInt(categoryId) || 1, 
+        priority: priorityMap[priority],       
       });
 
       setCreateModal(false);
@@ -323,7 +321,6 @@ export default function Tickets() {
               const statusStyle = statusConfig[normalizedStatus] ?? statusConfig.Open;
               const sla = getSla(ticket);
 
-              // Lógica robusta para obter os nomes
               const creatorName = ticket.user?.name || ticket.openedBy || "Usuário não identificado";
               const assignedName = ticket.assignedUser?.name || ticket.assignedTo || "Não atribuído";
 
