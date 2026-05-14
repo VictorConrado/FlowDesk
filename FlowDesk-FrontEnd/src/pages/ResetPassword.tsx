@@ -95,6 +95,7 @@ export default function ResetPassword() {
         {
           token,
           newPassword: password,
+          confirmPassword,
         }
       );
 

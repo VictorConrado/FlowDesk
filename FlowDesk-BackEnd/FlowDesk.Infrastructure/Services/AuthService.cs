@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace FlowDesk.Infrastructure.Services
 {
@@ -108,7 +109,7 @@ namespace FlowDesk.Infrastructure.Services
             if (user == null)
                 return;
 
-            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            var token = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(64));
 
             user.SetResetToken(token, DateTime.UtcNow.AddHours(1));
 
