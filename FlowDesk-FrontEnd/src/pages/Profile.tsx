@@ -1,15 +1,35 @@
 import { useEffect, useState } from "react";
+
 import { api } from "../services/api";
+
 import type { Ticket } from "../types/ticket";
+
+import TicketModal from "../components/TicketModal";
 
 export default function Profile() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
+
+  const [selectedTicketId, setSelectedTicketId] = useState<number | null>(
+    null
+  );
+
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     api
       .get("/tickets/my-tickets")
       .then((res) => setTickets(res.data));
   }, []);
+
+  function handleOpenTicket(ticketId: number) {
+    setSelectedTicketId(ticketId);
+    setOpenModal(true);
+  }
+
+  function handleCloseModal() {
+    setOpenModal(false);
+    setSelectedTicketId(null);
+  }
 
   return (
     <div className="space-y-6">
@@ -25,14 +45,21 @@ export default function Profile() {
 
       <div className="grid gap-4">
         {tickets.map((t) => (
-          <div
+          <button
             key={t.id}
+            type="button"
+            onClick={() => handleOpenTicket(t.id)}
             className="
+              text-left
               bg-slate-900/70
               border
               border-slate-800
               rounded-2xl
               p-5
+              transition
+              hover:border-blue-500/40
+              hover:bg-slate-900
+              cursor-pointer
             "
           >
             <div className="flex items-center justify-between">
@@ -61,9 +88,17 @@ export default function Profile() {
                 {t.priority}
               </span>
             </div>
-          </div>
+          </button>
         ))}
       </div>
+
+      {openModal && selectedTicketId && (
+        <TicketModal
+          ticket={tickets.find((t) => t.id === selectedTicketId)}
+          open={openModal}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
