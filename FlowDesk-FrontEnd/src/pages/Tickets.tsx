@@ -40,8 +40,8 @@ interface Ticket {
   number?: string;
   title: string;
   description: string;
-  status: TicketStatus | string;
-  priority: TicketPriority | string;
+  status: TicketStatus | string | number;
+  priority: TicketPriority | string | number; 
   category?: string;
   openedBy?: string; 
   assignedTo?: string | null; 
@@ -108,11 +108,11 @@ function normalizePriority(priority?: string | number): TicketPriority {
   return "Low";
 }
 
-function normalizeStatus(status?: string): TicketStatus {
+function normalizeStatus(status?: string | number): TicketStatus {
   if (!status) return "Open";
-  const value = status.toLowerCase();
-  if (value.includes("progress")) return "InProgress";
-  if (value.includes("closed")) return "Closed";
+  const value = String(status).toLowerCase();
+  if (value.includes("progress") || value === "2") return "InProgress";
+  if (value.includes("closed") || value === "3") return "Closed";
   return "Open";
 }
 
@@ -177,6 +177,10 @@ export default function Tickets() {
     try {
       setLoading(true);
       const endpoint = user?.role === "Employee" ? "/tickets/my-tickets" : "/tickets";
+      console.log("USER:", user);
+      console.log("TOKEN:", localStorage.getItem("token"));
+      console.log("ENDPOINT:", endpoint);
+      
       const response = await api.get(endpoint);
 
       const data = Array.isArray(response.data)

@@ -34,12 +34,13 @@ import { api } from "../services/api";
 interface Ticket {
   id: number;
   title: string;
-  description: string;
   status: "Open" | "InProgress" | "Closed";
-  priority: "Low" | "Medium" | "High";
+  priority: string;
+  category: string;
+  openedBy: string;
+  assignedTo: string | null;
   createdAt: string;
-  openedByName?: string;
-  assignedToId?: number | null;
+  slaExpiresAt: string;
 }
 
 interface DashboardCardProps {
@@ -93,9 +94,9 @@ function DashboardCard({
 export default function Dashboard() {
   const { user } = useContext(AuthContext);
 
-  const [tickets, setTickets] = useState<Ticket[]>(
-    []
-  );
+  const [tickets, setTickets] = useState<
+    Ticket[]
+  >([]);
 
   const [loading, setLoading] =
     useState<boolean>(true);
@@ -103,7 +104,7 @@ export default function Dashboard() {
   async function loadTickets() {
     try {
       const response = await api.get(
-        "/tickets?page=1&pageSize=100"
+        "/Tickets"
       );
 
       const data = response.data;
@@ -127,13 +128,24 @@ export default function Dashboard() {
     loadTickets();
   }, []);
 
-  const priorityData = useMemo(() => {
-    const safeTickets = tickets ?? [];
+  function formatDate(date: string) {
+    if (
+      !date ||
+      date === "0001-01-01T00:00:00"
+    ) {
+      return "-";
+    }
 
+    return new Date(date).toLocaleDateString(
+      "pt-BR"
+    );
+  }
+
+  const priorityData = useMemo(() => {
     return [
       {
         name: "High",
-        value: safeTickets.filter(
+        value: tickets.filter(
           (ticket) =>
             ticket.priority === "High"
         ).length,
@@ -141,7 +153,7 @@ export default function Dashboard() {
       },
       {
         name: "Medium",
-        value: safeTickets.filter(
+        value: tickets.filter(
           (ticket) =>
             ticket.priority === "Medium"
         ).length,
@@ -149,7 +161,7 @@ export default function Dashboard() {
       },
       {
         name: "Low",
-        value: safeTickets.filter(
+        value: tickets.filter(
           (ticket) =>
             ticket.priority === "Low"
         ).length,
@@ -159,26 +171,25 @@ export default function Dashboard() {
   }, [tickets]);
 
   const statusData = useMemo(() => {
-    const safeTickets = tickets ?? [];
-
     return [
       {
         name: "Open",
-        total: safeTickets.filter(
+        total: tickets.filter(
           (ticket) =>
             ticket.status === "Open"
         ).length,
       },
       {
         name: "InProgress",
-        total: safeTickets.filter(
+        total: tickets.filter(
           (ticket) =>
-            ticket.status === "InProgress"
+            ticket.status ===
+            "InProgress"
         ).length,
       },
       {
         name: "Closed",
-        total: safeTickets.filter(
+        total: tickets.filter(
           (ticket) =>
             ticket.status === "Closed"
         ).length,
@@ -187,13 +198,11 @@ export default function Dashboard() {
   }, [tickets]);
 
   const usersData = useMemo(() => {
-    const safeTickets = tickets ?? [];
-
-    const grouped = safeTickets.reduce<
+    const grouped = tickets.reduce<
       Record<string, number>
     >((acc, ticket) => {
       const userName =
-        ticket.openedByName ||
+        ticket.openedBy ||
         "Usuário";
 
       acc[userName] =
@@ -211,29 +220,42 @@ export default function Dashboard() {
   }, [tickets]);
 
   const assignedToMeCount = useMemo(() => {
-    const safeTickets = tickets ?? [];
+    if (!user) return 0;
 
-    return safeTickets.filter(
+    return tickets.filter(
       (ticket) =>
-        ticket.assignedToId &&
-        user &&
+        ticket.assignedTo &&
+        ticket.assignedTo.toLowerCase() ===
+          user.name.toLowerCase() &&
         ticket.status !== "Closed"
     ).length;
   }, [tickets, user]);
 
   function exportExcel() {
+    const data = tickets.map(
+      (ticket) => ({
+        ID: ticket.id,
+        Título: ticket.title,
+        Status: ticket.status,
+        Prioridade:
+          ticket.priority,
+        Categoria: ticket.category,
+        AbertoPor:
+          ticket.openedBy,
+        Responsável:
+          ticket.assignedTo ||
+          "Não atribuído",
+        CriadoEm: formatDate(
+          ticket.createdAt
+        ),
+        SLA: formatDate(
+          ticket.slaExpiresAt
+        ),
+      })
+    );
+
     const worksheet =
-      XLSX.utils.json_to_sheet(
-        tickets.map((ticket) => ({
-          ID: ticket.id,
-          Título: ticket.title,
-          Status: ticket.status,
-          Prioridade:
-            ticket.priority,
-          CriadoEm:
-            ticket.createdAt,
-        }))
-      );
+      XLSX.utils.json_to_sheet(data);
 
     const workbook =
       XLSX.utils.book_new();
@@ -351,33 +373,26 @@ export default function Dashboard() {
           "
         >
           <h2 className="mb-6 text-xl font-bold text-white">
-            Tickets por
-            Prioridade
+            Tickets por Prioridade
           </h2>
 
-          <div className="w-full h-[320px] min-h-[320px]">
+          <div className="w-full h-[320px]">
             <ResponsiveContainer
               width="100%"
               height="100%"
             >
               <PieChart>
                 <Pie
-                  data={
-                    priorityData
-                  }
+                  data={priorityData}
                   dataKey="value"
                   nameKey="name"
                   outerRadius={110}
                   label
                 >
                   {priorityData.map(
-                    (
-                      entry
-                    ) => (
+                    (entry) => (
                       <Cell
-                        key={
-                          entry.name
-                        }
+                        key={entry.name}
                         fill={
                           entry.color
                         }
@@ -403,11 +418,10 @@ export default function Dashboard() {
           "
         >
           <h2 className="mb-6 text-xl font-bold text-white">
-            Tickets por
-            Status
+            Tickets por Status
           </h2>
 
-          <div className="w-full h-[320px] min-h-[320px]">
+          <div className="w-full h-[320px]">
             <ResponsiveContainer
               width="100%"
               height="100%"
@@ -458,11 +472,10 @@ export default function Dashboard() {
         "
       >
         <h2 className="mb-6 text-xl font-bold text-white">
-          Tickets por
-          Usuário
+          Tickets por Usuário
         </h2>
 
-        <div className="w-full h-[380px] min-h-[380px]">
+        <div className="w-full h-[380px]">
           <ResponsiveContainer
             width="100%"
             height="100%"

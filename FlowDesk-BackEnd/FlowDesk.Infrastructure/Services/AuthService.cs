@@ -49,6 +49,10 @@ namespace FlowDesk.Infrastructure.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            await _context.Entry(user)
+                .Reference(u => u.Role)
+                .LoadAsync();
+
             return GenerateToken(user);
         }
 
