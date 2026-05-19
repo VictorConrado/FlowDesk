@@ -297,9 +297,11 @@ export default function ResetPassword() {
               <Lock
                 size={18}
                 className="
+                  pointer-events-none
                   absolute
                   left-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                 "
@@ -321,8 +323,9 @@ export default function ResetPassword() {
                 required
                 className="
                   input-galaxy
-                  pl-12
-                  pr-12
+                  w-full
+                  !pl-12
+                  !pr-12
                 "
               />
 
@@ -337,6 +340,7 @@ export default function ResetPassword() {
                   absolute
                   right-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                   transition-colors
@@ -371,9 +375,11 @@ export default function ResetPassword() {
               <Lock
                 size={18}
                 className="
+                  pointer-events-none
                   absolute
                   left-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                 "
@@ -397,8 +403,9 @@ export default function ResetPassword() {
                 required
                 className="
                   input-galaxy
-                  pl-12
-                  pr-12
+                  w-full
+                  !pl-12
+                  !pr-12
                 "
               />
 
@@ -413,6 +420,7 @@ export default function ResetPassword() {
                   absolute
                   right-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                   transition-colors
@@ -462,6 +470,7 @@ export default function ResetPassword() {
                 px-4
                 py-3
                 text-sm
+                leading-relaxed
                 text-red-300
               "
             >
@@ -485,6 +494,8 @@ export default function ResetPassword() {
               text-sm
               uppercase
               tracking-[0.15em]
+              disabled:cursor-not-allowed
+              disabled:opacity-70
             "
           >
             {loading

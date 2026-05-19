@@ -234,9 +234,11 @@ export default function Login() {
               <Mail
                 size={18}
                 className="
+                  pointer-events-none
                   absolute
                   left-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                 "
@@ -252,7 +254,8 @@ export default function Login() {
                 required
                 className="
                   input-galaxy
-                  pl-12
+                  w-full
+                  !pl-12
                 "
               />
             </div>
@@ -277,9 +280,11 @@ export default function Login() {
               <Lock
                 size={18}
                 className="
+                  pointer-events-none
                   absolute
                   left-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                 "
@@ -301,8 +306,9 @@ export default function Login() {
                 required
                 className="
                   input-galaxy
-                  pl-12
-                  pr-12
+                  w-full
+                  !pl-12
+                  !pr-12
                 "
               />
 
@@ -317,6 +323,7 @@ export default function Login() {
                   absolute
                   right-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                   transition-colors
@@ -388,6 +395,8 @@ export default function Login() {
               text-sm
               uppercase
               tracking-[0.15em]
+              disabled:cursor-not-allowed
+              disabled:opacity-70
             "
           >
             {loading

@@ -11,7 +11,7 @@ import axios from "axios";
 import {
   ArrowLeft,
   Mail,
-  SendHorizonal,
+  SendHorizontal,
   ShieldCheck,
 } from "lucide-react";
 
@@ -242,9 +242,11 @@ export default function ForgotPassword() {
               <Mail
                 size={18}
                 className="
+                  pointer-events-none
                   absolute
                   left-4
                   top-1/2
+                  z-10
                   -translate-y-1/2
                   text-white/40
                 "
@@ -262,7 +264,8 @@ export default function ForgotPassword() {
                 required
                 className="
                   input-galaxy
-                  pl-12
+                  w-full
+                  !pl-12
                 "
               />
             </div>
@@ -298,6 +301,7 @@ export default function ForgotPassword() {
                 px-4
                 py-3
                 text-sm
+                leading-relaxed
                 text-red-300
               "
             >
@@ -321,9 +325,11 @@ export default function ForgotPassword() {
               text-sm
               uppercase
               tracking-[0.15em]
+              disabled:cursor-not-allowed
+              disabled:opacity-70
             "
           >
-            <SendHorizonal size={18} />
+            <SendHorizontal size={18} />
 
             {loading
               ? "Enviando..."
