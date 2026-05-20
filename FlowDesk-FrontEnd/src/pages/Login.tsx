@@ -198,7 +198,7 @@ export default function Login() {
               text-white/60
             "
           >
-            Acesse a central galáctica de
+            Acesse a central de
             gerenciamento de tickets.
           </p>
         </div>
