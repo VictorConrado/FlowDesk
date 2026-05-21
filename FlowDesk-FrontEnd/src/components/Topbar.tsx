@@ -105,7 +105,7 @@ export default function Topbar() {
                 tracking-[0.3em]
               "
             >
-              Galactic Support System
+              Ticket System
             </span>
           </div>
 
