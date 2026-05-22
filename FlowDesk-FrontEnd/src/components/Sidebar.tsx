@@ -445,7 +445,7 @@ export default function Sidebar() {
                     text-orange-300
                   "
                 >
-                  FlowDesk AI Cloud
+                  FlowDesk
                 </p>
 
                 <h3
