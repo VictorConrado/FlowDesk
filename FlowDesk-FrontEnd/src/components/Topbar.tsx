@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Bell,
   LogOut,
   Shield,
   UserCircle2,
@@ -139,43 +138,6 @@ export default function Topbar() {
             gap-4
           "
         >
-          {/* NOTIFICATIONS */}
-          <button
-            className="
-              relative
-              flex
-              h-12
-              w-12
-              items-center
-              justify-center
-              rounded-2xl
-              border
-              border-white/10
-              bg-white/[0.05]
-              text-white
-              transition-all
-              duration-300
-              hover:border-orange-400/30
-              hover:bg-orange-500/10
-              hover:text-orange-300
-              hover:shadow-neonOrange
-            "
-          >
-            <Bell size={18} />
-
-            <span
-              className="
-                absolute
-                right-3
-                top-3
-                h-2
-                w-2
-                rounded-full
-                bg-red-400
-                shadow-neonRed
-              "
-            />
-          </button>
 
           {/* USER CARD */}
           <div
