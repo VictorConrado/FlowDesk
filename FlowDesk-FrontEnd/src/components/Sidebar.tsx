@@ -179,7 +179,7 @@ export default function Sidebar() {
                   text-orange-300
                 "
               >
-                Galactic Core
+                Ticket Core
               </p>
             </div>
           )}

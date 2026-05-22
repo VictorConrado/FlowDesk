@@ -6,7 +6,6 @@ import {
   Bell,
   LogOut,
   Shield,
-  Sparkles,
   UserCircle2,
 } from "lucide-react";
 
@@ -96,8 +95,6 @@ export default function Topbar() {
               text-orange-300
             "
           >
-            <Sparkles size={18} />
-
             <span
               className="
                 text-xs

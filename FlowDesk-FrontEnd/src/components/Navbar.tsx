@@ -192,7 +192,7 @@ export default function Navbar() {
                   text-orange-300
                 "
               >
-                Galactic Fleet Support
+               Fleet Support
               </p>
             </div>
           </div>

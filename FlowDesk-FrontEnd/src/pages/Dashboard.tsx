@@ -285,7 +285,7 @@ export default function Dashboard() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="text-4xl font-bold text-white">
-            Galactic Dashboard
+            Dashboard
           </h1>
 
           <p className="mt-2 text-gray-400">
