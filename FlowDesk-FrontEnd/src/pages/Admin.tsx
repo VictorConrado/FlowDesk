@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import type { User } from "../types/user";
-import { getUsers, updateUserRole } from "../services/userService";
+import {
+  getUsers,
+  updateUserRole,
+} from "../services/userService";
 import axios from "axios";
 
 export default function Admin() {
   const [users, setUsers] = useState<User[]>([]);
-  const [loadingUserId, setLoadingUserId] = useState<number | null>(null);
+  const [loadingUserId, setLoadingUserId] =
+    useState<number | null>(null);
 
-  const loggedUserIdRaw = localStorage.getItem("userId");
+  const loggedUserIdRaw =
+    localStorage.getItem("userId");
+
   const loggedUserId = loggedUserIdRaw
     ? parseInt(loggedUserIdRaw)
     : null;
@@ -15,9 +21,15 @@ export default function Admin() {
   async function loadUsers(): Promise<void> {
     try {
       const data = await getUsers();
+
       setUsers(data);
     } catch (error) {
-      console.error("Erro ao carregar usuários", error);
+      console.error(
+        "Erro ao carregar usuários",
+        error
+      );
+
+      alert("Erro ao carregar usuários");
     }
   }
 
@@ -26,12 +38,18 @@ export default function Admin() {
     newRole: string
   ): Promise<void> {
     const isSelf =
-      loggedUserId !== null && userId === loggedUserId;
+      loggedUserId !== null &&
+      userId === loggedUserId;
 
     if (isSelf) {
-      alert("Você não pode alterar sua própria role.");
+      alert(
+        "Você não pode alterar sua própria role."
+      );
+
       return;
     }
+
+    const previousUsers = [...users];
 
     try {
       setLoadingUserId(userId);
@@ -47,16 +65,24 @@ export default function Admin() {
       await updateUserRole(userId, newRole);
 
       await loadUsers();
+
+      alert("Role atualizada com sucesso.");
     } catch (err: unknown) {
+
+      setUsers(previousUsers);
+
       if (axios.isAxiosError(err)) {
-        if (
-          err.response?.data ===
-          "Você não pode alterar sua própria role."
-        ) {
-          alert("Você não pode alterar sua própria role.");
-        } else {
-          alert("Erro ao atualizar role");
-        }
+        const errorMessage =
+          typeof err.response?.data ===
+          "string"
+            ? err.response.data
+            : "Erro ao atualizar role";
+
+        alert(errorMessage);
+      } else {
+        alert(
+          "Erro inesperado ao atualizar role"
+        );
       }
 
       await loadUsers();
@@ -77,7 +103,8 @@ export default function Admin() {
         </h1>
 
         <p className="text-slate-400 mt-1">
-          Gerencie permissões e cargos dos usuários.
+          Gerencie permissões e cargos dos
+          usuários.
         </p>
       </div>
 
@@ -122,7 +149,8 @@ export default function Admin() {
 
                 {isSelf && (
                   <p className="text-xs text-red-400 mt-2">
-                    Você não pode alterar sua própria role.
+                    Você não pode alterar sua
+                    própria role.
                   </p>
                 )}
               </div>
@@ -131,7 +159,8 @@ export default function Admin() {
                 <select
                   value={u.role}
                   disabled={
-                    loadingUserId === u.id || isSelf
+                    loadingUserId === u.id ||
+                    isSelf
                   }
                   onChange={(e) =>
                     void handleChangeRole(
@@ -149,6 +178,8 @@ export default function Admin() {
                     py-2
                     outline-none
                     focus:border-blue-500
+                    disabled:opacity-60
+                    disabled:cursor-not-allowed
                   "
                 >
                   <option value="Admin">

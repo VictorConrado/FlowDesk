@@ -12,7 +12,6 @@ import {
   UserCircle,
   ShieldCheck,
   LogOut,
-  Sparkles,
 } from "lucide-react";
 
 import { AuthContext } from "../context/AuthContext";
@@ -168,7 +167,6 @@ export default function Navbar() {
                 shadow-neonOrange
               "
             >
-              <Sparkles size={24} />
             </div>
 
             <div>

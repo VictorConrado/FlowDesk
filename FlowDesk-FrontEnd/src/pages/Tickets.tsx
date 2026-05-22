@@ -16,7 +16,6 @@ import {
   Loader2,
   Plus,
   ShieldCheck,
-  Sparkles,
   Ticket as TicketIcon,
   UserRound,
   X,
@@ -316,7 +315,6 @@ export default function Tickets() {
           </div>
         ) : filteredTickets.length === 0 ? (
           <div className="flex min-h-[350px] flex-col items-center justify-center gap-4 rounded-3xl border border-white/10 bg-white/5 p-10 text-center">
-            <Sparkles className="text-orange-300" size={42} />
             <div>
               <h2 className="text-xl font-semibold text-white">
                 Nenhum ticket encontrado

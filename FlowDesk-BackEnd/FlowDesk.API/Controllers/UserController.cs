@@ -37,13 +37,30 @@ namespace FlowDesk.API.Controllers
         [HttpPut("{id}/role")]
         public async Task<IActionResult> UpdateRoleAsync(int id, [FromBody] UpdateUserRoleDto dto)
         {
-            var loggedUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            try
+            {
+                var loggedUserId = int.Parse(
+                    User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+                );
 
-            if (loggedUserId == id)
-                return BadRequest("Você não pode alterar sua própria role.");
+                if (loggedUserId == id)
+                {
+                    return BadRequest(
+                        "Você não pode alterar sua própria role."
+                    );
+                }
 
-            await _userService.UpdateRoleAsync(id, dto.RoleId);
-            return NoContent();
+                await _userService.UpdateRoleAsync(
+                    id,
+                    dto.RoleId
+                );
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

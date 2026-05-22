@@ -1,5 +1,6 @@
 ﻿using FlowDesk.Application.DTOs.Users;
 using FlowDesk.Application.Interfaces;
+using FlowDesk.Domain.Enums;
 using FlowDesk.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -55,11 +56,41 @@ namespace FlowDesk.Infrastructure.Services
         public async Task UpdateRoleAsync(int userId, int roleId)
         {
             var user = await _context.Users
-                 .Include(u => u.Role)
-                 .FirstOrDefaultAsync(u => u.Id == userId);
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
                 throw new Exception("Usuário não encontrado");
+
+            var targetRole = await _context.Roles
+                .FirstOrDefaultAsync(r => r.Id == roleId);
+
+            if (targetRole == null)
+                throw new Exception("Role não encontrada");
+
+            var currentRole = user.Role.Name;
+            var newRole = targetRole.Name;
+
+            var isDowngradeToEmployee =
+                (currentRole == "Admin" ||
+                 currentRole == "Technician")
+                && newRole == "Employee";
+
+            if (isDowngradeToEmployee)
+            {
+                var hasAssignedTicketInProgress =
+                    await _context.Tickets.AnyAsync(t =>
+                        t.AssignedToId == userId &&
+                        t.Status == TicketStatus.InProgress
+                    );
+
+                if (hasAssignedTicketInProgress)
+                {
+                    throw new Exception(
+                        "Não foi possível realizar a operação pois o usuário possui um chamado atribuído em andamento."
+                    );
+                }
+            }
 
             user.UpdateRole(roleId);
 
