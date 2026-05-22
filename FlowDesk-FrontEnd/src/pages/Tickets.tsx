@@ -215,31 +215,38 @@ export default function Tickets() {
   }, [tickets, statusFilter, priorityFilter]);
 
   async function handleCreateTicket() {
-    try {
-     
-      const priorityMap: Record<TicketPriority, number> = {
-        Low: 1,
-        Medium: 2,
-        High: 3,
-      };
+      try {
+        const categoryNumber = Number(categoryId);
 
-      await api.post("/tickets", {
-        title,
-        description,
-        categoryId: parseInt(categoryId) || 1, 
-        priority: priorityMap[priority],       
-      });
+        if (categoryNumber < 1 || categoryNumber > 3) {
+          alert("A categoria deve ser entre 1 e 3.");
+          return;
+        }
 
-      setCreateModal(false);
-      setTitle("");
-      setDescription("");
-      setCategoryId("");
-      setPriority("Medium");
-      await fetchTickets();
-    } catch (error) {
-      console.error(error);
+        const priorityMap: Record<TicketPriority, number> = {
+          Low: 1,
+          Medium: 2,
+          High: 3,
+        };
+
+        await api.post("/tickets", {
+          title,
+          description,
+          categoryId: categoryNumber,
+          priority: priorityMap[priority],
+        });
+
+        setCreateModal(false);
+        setTitle("");
+        setDescription("");
+        setCategoryId("");
+        setPriority("Medium");
+
+        await fetchTickets();
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
 
   return (
     <>
@@ -446,9 +453,22 @@ export default function Tickets() {
 
               <input
                 type="number"
+                min={1}
+                max={3}
                 value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                placeholder="ID da Categoria (Ex: 1)"
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+
+                  if (e.target.value === "") {
+                    setCategoryId("");
+                    return;
+                  }
+
+                  if (value >= 1 && value <= 3) {
+                    setCategoryId(e.target.value);
+                  }
+                }}
+                placeholder="ID da Categoria (1 a 3)"
                 className="w-full rounded-2xl border border-white/10 bg-[#050816]/80 p-4 text-white"
               />
 
