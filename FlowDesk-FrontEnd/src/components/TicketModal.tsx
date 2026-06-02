@@ -33,10 +33,7 @@ interface TicketComment {
   id: number;
   content: string;
   createdAt: string;
-  author?: {
-    id: number;
-    name: string;
-  };
+  user: string;
 }
 
 interface Ticket {
@@ -265,6 +262,7 @@ export default function TicketModal({
 
   const canAssign =
     ticketData.status !== "Closed" &&
+    !ticketData.assignedTo &&
     (user?.role === "Admin" ||
       user?.role ===
         "Technician");
@@ -733,8 +731,7 @@ export default function TicketModal({
                             text-orange-300
                           "
                         >
-                          {comment.author
-                            ?.name ??
+                          {comment.user ??
                             "Usuário"}
                         </span>
 
