@@ -163,15 +163,36 @@ namespace FlowDesk.Infrastructure.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Ticket>>GetTicketsByUserIdAsync(int userId)
+        public async Task<List<TicketResponseDto>>GetTicketsByUserIdAsync(int userId)
         {
-
             return await _context.Tickets
-                .Include(t => t.Category)
-                .Where(t =>
-                    t.AssignedToId == userId ||
-                    t.CreatedById == userId)
-                .ToListAsync();
+                    .Include(t => t.Category)
+                    .Include(t => t.AssignedTo)
+                    .Include(t => t.CreatedBy)
+                    .Where(t =>
+                        t.AssignedToId == userId ||
+                        t.CreatedById == userId)
+                    .OrderByDescending(t => t.CreatedAt)
+                    .Select(t => new TicketResponseDto
+                    {
+                        Id = t.Id,
+                        Title = t.Title,
+
+                        Status = t.Status.ToString(),
+                        Priority = t.Priority.ToString(),
+
+                        Category = t.Category.Name,
+
+                        OpenedBy = t.CreatedBy.Name,
+
+                        AssignedTo = t.AssignedTo != null
+                            ? t.AssignedTo.Name
+                            : null,
+
+                        CreatedAt = t.CreatedAt,
+                        SLAExpiresAt = t.SLAExpiresAt
+                    })
+                    .ToListAsync();
         }
 
 

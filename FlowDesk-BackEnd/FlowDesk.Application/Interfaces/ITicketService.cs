@@ -14,8 +14,7 @@ namespace FlowDesk.Application.Interfaces
         Task<IEnumerable<TicketResponseDto>> GetAllAsync(int page, int pageSize);
         Task<TicketDetailsDto> GetByIdAsync(int id);
 
-        Task<List<Ticket>> GetTicketsByUserIdAsync(int userId);
-
+        Task<List<TicketResponseDto>> GetTicketsByUserIdAsync(int userId);
 
         Task AssignAsync(int ticketId, int technicianId);
         Task CloseAsync(int ticketId, int performedBy, bool isAdmin, string closeComment);
