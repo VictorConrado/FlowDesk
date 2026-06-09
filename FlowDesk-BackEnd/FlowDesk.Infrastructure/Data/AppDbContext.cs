@@ -29,7 +29,8 @@ namespace FlowDesk.Infrastructure.Data
             builder.Entity<Role>().HasData(
                 new Role(1, "Admin"),
                 new Role(2, "Employee"),
-                new Role(3, "Technician")
+                new Role(3, "Technician"),
+                new Role(4, "SuperAdmin")
             );
 
             builder.Entity<Category>().HasData(

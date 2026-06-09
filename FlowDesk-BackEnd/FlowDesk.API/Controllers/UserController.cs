@@ -34,6 +34,7 @@ namespace FlowDesk.API.Controllers
             return Ok(user);
         }
 
+        [Authorize(policy:"AdminOnly")]
         [HttpPut("{id}/role")]
         public async Task<IActionResult> UpdateRoleAsync(int id, [FromBody] UpdateUserRoleDto dto)
         {
@@ -64,10 +65,12 @@ namespace FlowDesk.API.Controllers
         }
 
 
+        [Authorize(policy: "SuperAdminOnly")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _userService.DeleteAsync(id);
+
             return NoContent();
         }
     }

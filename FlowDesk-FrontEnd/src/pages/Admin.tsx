@@ -3,6 +3,7 @@ import type { User } from "../types/user";
 import {
   getUsers,
   updateUserRole,
+  deleteUser,
 } from "../services/userService";
 import axios from "axios";
 
@@ -13,6 +14,9 @@ export default function Admin() {
 
   const loggedUserIdRaw =
     localStorage.getItem("userId");
+
+  const loggedUserRole =
+    localStorage.getItem("role");
 
   const loggedUserId = loggedUserIdRaw
     ? parseInt(loggedUserIdRaw)
@@ -68,7 +72,6 @@ export default function Admin() {
 
       alert("Role atualizada com sucesso.");
     } catch (err: unknown) {
-
       setUsers(previousUsers);
 
       if (axios.isAxiosError(err)) {
@@ -95,6 +98,33 @@ export default function Admin() {
     void loadUsers();
   }, []);
 
+async function handleDeleteUser(
+  userId: number
+): Promise<void> {
+  const confirmed = window.confirm(
+    "Tem certeza que deseja excluir este usuário?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    await deleteUser(userId);
+
+    setUsers((prev) =>
+      prev.filter((u) => u.id !== userId)
+    );
+
+    alert("Usuário excluído com sucesso.");
+  } catch (error) {
+    console.error(
+      "Erro ao excluir usuário",
+      error
+    );
+
+    alert("Erro ao excluir usuário.");
+  }
+}
+
   return (
     <div className="space-y-6">
       <div>
@@ -113,6 +143,9 @@ export default function Admin() {
           const isSelf =
             loggedUserId !== null &&
             u.id === loggedUserId;
+
+          const isTargetSuperAdmin =
+            u.role === "SuperAdmin";
 
           return (
             <div
@@ -153,14 +186,47 @@ export default function Admin() {
                     própria role.
                   </p>
                 )}
+
+                {isTargetSuperAdmin &&
+                  loggedUserRole !==
+                    "SuperAdmin" && (
+                    <p className="text-xs text-amber-400 mt-2">
+                      Apenas SuperAdmins podem
+                      alterar este usuário.
+                    </p>
+                  )}
               </div>
 
               <div className="flex items-center gap-3">
+                {(loggedUserRole === "SuperAdmin" || loggedUserRole === "4") &&
+                  !isSelf && (
+                    <button
+                      onClick={() =>
+                        void handleDeleteUser(u.id)
+                      }
+                      className="
+                        px-3
+                        py-2
+                        rounded-lg
+                        bg-red-600
+                        hover:bg-red-700
+                        text-white
+                        text-sm
+                        transition-colors
+                      "
+                    >
+                      Excluir
+                    </button>
+                )}
+
                 <select
                   value={u.role}
                   disabled={
                     loadingUserId === u.id ||
-                    isSelf
+                    isSelf ||
+                    (isTargetSuperAdmin &&
+                      loggedUserRole !==
+                        "SuperAdmin")
                   }
                   onChange={(e) =>
                     void handleChangeRole(
@@ -193,6 +259,13 @@ export default function Admin() {
                   <option value="Employee">
                     Employee
                   </option>
+
+                  {loggedUserRole ===
+                    "SuperAdmin" && (
+                    <option value="SuperAdmin">
+                      SuperAdmin
+                    </option>
+                  )}
                 </select>
 
                 {loadingUserId === u.id && (

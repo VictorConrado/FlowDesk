@@ -19,7 +19,7 @@ namespace FlowDesk.API.Controllers
             _service = service;
         }
 
-        // api/tickets
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateTicketDto dto)
         {
@@ -47,9 +47,9 @@ namespace FlowDesk.API.Controllers
             return Ok(tickets);
         }
 
-        [Authorize(Roles = "Admin,Technician")]
+        [Authorize(policy: "TechnicianOnly")]
         [HttpPut("{id}/assign")]
-        public async Task<IActionResult> Assign(int id,[FromBody] AssingTicketDto dto)
+        public async Task<IActionResult> Assign(int id, [FromBody] AssingTicketDto dto)
         {
             if (dto.TechnicianId <= 0)
                 return BadRequest("TechnicianId inválido");
@@ -59,7 +59,7 @@ namespace FlowDesk.API.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin, Technician")]
+        [Authorize(policy: "TechnicianOnly")]
         [HttpPut("{id}/close")]
         public async Task<IActionResult> Close(int id, CloseTicketDto dto)
         {
@@ -72,7 +72,7 @@ namespace FlowDesk.API.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(policy: "AdminOnly")]
         [HttpPut("{id}/reopen")]
         public async Task<IActionResult> Reopen(int id)
         {
@@ -81,13 +81,13 @@ namespace FlowDesk.API.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(policy: "AdminOnly")]
         [HttpPut("{id}/priority")]
         public async Task<IActionResult> ChangePriority(int id, ChangePriorityDto dto)
         {
-             await _service.ChangePriorityAsync(id, dto.Priority);
+            await _service.ChangePriorityAsync(id, dto.Priority);
 
-             return NoContent();
+            return NoContent();
         }
 
         [Authorize]
@@ -108,6 +108,15 @@ namespace FlowDesk.API.Controllers
             var ticket = await _service.GetByIdAsync(id);
 
             return Ok(ticket);
+        }
+
+        [Authorize(policy: "SuperAdminOnly")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.DeleteAsync(id);
+
+            return NoContent();
         }
     }
 }

@@ -30,28 +30,28 @@ const sidebarItems: SidebarItem[] = [
     label: "Dashboard",
     path: "/dashboard",
     icon: LayoutDashboard,
-    roles: ["Employee", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin", "SuperAdmin"],
   },
 
   {
     label: "Tickets",
     path: "/tickets",
     icon: Ticket,
-    roles: ["Employee", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin", "SuperAdmin"],
   },
 
   {
     label: "Perfil",
     path: "/profile",
     icon: UserCircle,
-    roles: ["Employee", "Technician", "Admin"],
+    roles: ["Employee", "Technician", "Admin", "SuperAdmin"],
   },
 
   {
     label: "Admin",
     path: "/admin",
     icon: ShieldCheck,
-    roles: ["Admin"],
+    roles: ["Admin", "SuperAdmin"],
   },
 ];
 
@@ -67,7 +67,7 @@ export default function Sidebar() {
     useState<boolean>(false);
 
   const visibleItems = sidebarItems.filter((item) =>
-    item.roles.includes(user?.role ?? "User")
+    item.roles.includes(user?.role ?? "Employee")
   );
 
   return (

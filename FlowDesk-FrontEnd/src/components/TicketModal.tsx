@@ -221,6 +221,7 @@ export default function TicketModal({
           response.data.filter(
             (u: SystemUser) =>
               u.role === "Admin" ||
+              u.role === "SuperAdmin" ||
               u.role ===
                 "Technician"
           );
@@ -236,7 +237,7 @@ export default function TicketModal({
   useEffect(() => {
     fetchTicket();
 
-    if (user?.role === "Admin") {
+    if (user?.role === "Admin" || user?.role === "SuperAdmin") {
       fetchUsers();
     }
   }, [
@@ -252,18 +253,20 @@ export default function TicketModal({
 
   const canClose =
     (user?.role === "Admin" ||
+      user?.role === "SuperAdmin" ||
       user?.name ===
         ticketData.assignedTo) &&
     ticketData.status !== "Closed";
 
   const canReopen =
-    user?.role === "Admin" &&
+    (user?.role === "Admin" || user?.role === "SuperAdmin") &&
     ticketData.status === "Closed";
 
   const canAssign =
     ticketData.status !== "Closed" &&
     !ticketData.assignedTo &&
     (user?.role === "Admin" ||
+      user?.role === "SuperAdmin" ||
       user?.role ===
         "Technician");
 

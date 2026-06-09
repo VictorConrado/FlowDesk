@@ -14,9 +14,15 @@ export async function updateUserRole(
     Admin: 1,
     Employee: 2,
     Technician: 3,
+    SuperAdmin: 4,
   };
 
   await api.put(`/user/${userId}/role`, {
     roleId: roleMap[role],
   });
+}
+export async function deleteUser(
+  userId: number
+): Promise<void> {
+  await api.delete(`/user/${userId}`);
 }

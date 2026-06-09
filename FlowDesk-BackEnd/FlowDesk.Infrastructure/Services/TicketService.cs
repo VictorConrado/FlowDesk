@@ -290,5 +290,17 @@ namespace FlowDesk.Infrastructure.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var ticket = await _context.Tickets.FindAsync(id);
+
+            if (ticket is null)
+                throw new Exception("Ticket não encontrado");
+
+            _context.Tickets.Remove(ticket);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FlowDesk.Application.DTOs.Users;
 using FlowDesk.Application.Interfaces;
+using FlowDesk.Domain.Entities;
 using FlowDesk.Domain.Enums;
 using FlowDesk.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -100,6 +101,9 @@ namespace FlowDesk.Infrastructure.Services
         public async Task DeleteAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
+
+            if (user is null)
+                throw new Exception("User não encontrado");
 
             _context.Users.Remove(user);
 

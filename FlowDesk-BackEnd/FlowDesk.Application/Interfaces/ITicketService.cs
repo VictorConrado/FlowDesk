@@ -24,5 +24,7 @@ namespace FlowDesk.Application.Interfaces
         Task ChangePriorityAsync(int ticketId, string priority);
 
         Task AddCommentAsync(int ticketId, int userId, string content);
+
+        Task DeleteAsync(int id);
     }
 }

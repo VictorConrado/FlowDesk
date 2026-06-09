@@ -15,6 +15,9 @@ function getRoleColor(role?: string): string {
     case "Admin":
       return "text-red-300";
 
+    case "SuperAdmin":
+      return "text-purple-300";  
+
     case "Technician":
       return "text-yellow-300";
 
@@ -30,6 +33,13 @@ function getRoleBadge(role?: string): string {
         border-red-500/20
         bg-red-500/10
         text-red-300
+      `;
+
+    case "SuperAdmin":
+      return `
+        border-purple-500/20
+        bg-purple-500/10
+        text-purple-300
       `;
 
     case "Technician":
