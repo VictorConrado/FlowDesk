@@ -404,6 +404,36 @@ export default function TicketModal({
     }
   }
 
+  async function handleDeleteTicket() {
+      const confirmed = window.confirm(
+        `Deseja realmente excluir o ticket #${ticketData.id}?`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        await api.delete(
+          `/tickets/${ticketData.id}`
+        );
+
+        await onUpdated();
+
+        onClose();
+      } catch (error) {
+        console.error(error);
+
+        alert(
+          "Erro ao excluir ticket."
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
   return (
     <div
       onClick={onClose}
@@ -874,6 +904,30 @@ export default function TicketModal({
                   "
                 >
                   Assumir Ticket
+                </button>
+              )}
+
+              {user?.role === "SuperAdmin" && (
+                <button
+                  disabled={loading}
+                  onClick={handleDeleteTicket}
+                  className="
+                    rounded-2xl
+                    border
+                    border-red-600/40
+                    bg-red-600/15
+                    px-6
+                    py-3
+                    font-semibold
+                    text-red-300
+                    transition-all
+                    hover:bg-red-600/25
+                    hover:border-red-500/70
+                    disabled:opacity-50
+                    disabled:cursor-not-allowed
+                  "
+                >
+                  Excluir Ticket
                 </button>
               )}
 
