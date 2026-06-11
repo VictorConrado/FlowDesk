@@ -137,7 +137,7 @@ export default function ResetPassword() {
         py-10
       "
     >
-      {/* BACKGROUND */}
+
       <div
         className="
           pointer-events-none
@@ -186,7 +186,6 @@ export default function ResetPassword() {
         />
       </div>
 
-      {/* CARD */}
       <div
         className="
           glass-card
@@ -202,7 +201,7 @@ export default function ResetPassword() {
           shadow-glass
         "
       >
-        {/* GLOW */}
+
         <div
           className="
             pointer-events-none
@@ -215,7 +214,6 @@ export default function ResetPassword() {
           "
         />
 
-        {/* HEADER */}
         <div className="relative z-10">
           <div
             className="
@@ -266,7 +264,6 @@ export default function ResetPassword() {
           </p>
         </div>
 
-        {/* FORM */}
         <form
           onSubmit={handleSubmit}
           className="
@@ -278,7 +275,7 @@ export default function ResetPassword() {
             gap-5
           "
         >
-          {/* PASSWORD */}
+
           <div>
             <label
               className="
@@ -356,7 +353,6 @@ export default function ResetPassword() {
             </div>
           </div>
 
-          {/* CONFIRM PASSWORD */}
           <div>
             <label
               className="
@@ -436,7 +432,6 @@ export default function ResetPassword() {
             </div>
           </div>
 
-          {/* SUCCESS */}
           {success && (
             <div
               className="
@@ -459,7 +454,6 @@ export default function ResetPassword() {
             </div>
           )}
 
-          {/* ERROR */}
           {error && (
             <div
               className="
@@ -478,7 +472,6 @@ export default function ResetPassword() {
             </div>
           )}
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
@@ -504,7 +497,6 @@ export default function ResetPassword() {
           </button>
         </form>
 
-        {/* FOOTER */}
         <div
           className="
             relative

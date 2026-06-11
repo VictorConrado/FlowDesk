@@ -75,7 +75,7 @@ export default function Login() {
         py-10
       "
     >
-      {/* BACKGROUND EFFECTS */}
+
       <div
         className="
           pointer-events-none
@@ -124,7 +124,6 @@ export default function Login() {
         />
       </div>
 
-      {/* CARD */}
       <div
         className="
           glass-card
@@ -140,7 +139,7 @@ export default function Login() {
           shadow-glass
         "
       >
-        {/* GLOW */}
+
         <div
           className="
             pointer-events-none
@@ -153,7 +152,6 @@ export default function Login() {
           "
         />
 
-        {/* HEADER */}
         <div className="relative z-10">
           <div
             className="
@@ -203,7 +201,6 @@ export default function Login() {
           </p>
         </div>
 
-        {/* FORM */}
         <form
           onSubmit={handleLogin}
           className="
@@ -215,7 +212,7 @@ export default function Login() {
             gap-5
           "
         >
-          {/* EMAIL */}
+
           <div>
             <label
               className="
@@ -261,7 +258,6 @@ export default function Login() {
             </div>
           </div>
 
-          {/* PASSWORD */}
           <div>
             <label
               className="
@@ -339,7 +335,6 @@ export default function Login() {
             </div>
           </div>
 
-          {/* ERROR */}
           {error && (
             <div
               className="
@@ -357,7 +352,6 @@ export default function Login() {
             </div>
           )}
 
-          {/* ACTIONS */}
           <div
             className="
               flex
@@ -379,7 +373,6 @@ export default function Login() {
             </Link>
           </div>
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
@@ -405,7 +398,6 @@ export default function Login() {
           </button>
         </form>
 
-        {/* FOOTER */}
         <div
           className="
             relative

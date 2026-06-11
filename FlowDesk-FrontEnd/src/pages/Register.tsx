@@ -103,7 +103,7 @@ export default function Register() {
         py-10
       "
     >
-      {/* BACKGROUND */}
+
       <div
         className="
           pointer-events-none
@@ -152,7 +152,6 @@ export default function Register() {
         />
       </div>
 
-      {/* CARD */}
       <div
         className="
           glass-card
@@ -168,7 +167,7 @@ export default function Register() {
           shadow-glass
         "
       >
-        {/* GLOW */}
+
         <div
           className="
             pointer-events-none
@@ -181,7 +180,6 @@ export default function Register() {
           "
         />
 
-        {/* HEADER */}
         <div className="relative z-10">
           <div
             className="
@@ -231,7 +229,6 @@ export default function Register() {
           </p>
         </div>
 
-        {/* FORM */}
         <form
           onSubmit={handleRegister}
           className="
@@ -243,7 +240,7 @@ export default function Register() {
             gap-5
           "
         >
-          {/* NAME */}
+
           <div>
             <label
               className="
@@ -291,7 +288,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* EMAIL */}
           <div>
             <label
               className="
@@ -339,7 +335,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* PASSWORD */}
           <div>
             <label
               className="
@@ -417,7 +412,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* CONFIRM PASSWORD */}
           <div>
             <label
               className="
@@ -497,7 +491,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* ERROR */}
           {error && (
             <div
               className="
@@ -516,7 +509,6 @@ export default function Register() {
             </div>
           )}
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
@@ -542,7 +534,6 @@ export default function Register() {
           </button>
         </form>
 
-        {/* FOOTER */}
         <div
           className="
             relative

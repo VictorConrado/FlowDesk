@@ -94,7 +94,7 @@ export default function Topbar() {
           md:justify-between
         "
       >
-        {/* LEFT */}
+
         <div>
           <div
             className="
@@ -139,7 +139,6 @@ export default function Topbar() {
           </p>
         </div>
 
-        {/* RIGHT */}
         <div
           className="
             flex
@@ -149,7 +148,6 @@ export default function Topbar() {
           "
         >
 
-          {/* USER CARD */}
           <div
             className="
               glass-card
@@ -163,7 +161,7 @@ export default function Topbar() {
               py-3
             "
           >
-            {/* AVATAR */}
+
             <div
               className="
                 flex
@@ -182,7 +180,6 @@ export default function Topbar() {
               <UserCircle2 size={24} />
             </div>
 
-            {/* USER INFO */}
             <div>
               <p
                 className="
@@ -229,7 +226,6 @@ export default function Topbar() {
               </div>
             </div>
 
-            {/* LOGOUT */}
             <button
               onClick={handleLogout}
               className="

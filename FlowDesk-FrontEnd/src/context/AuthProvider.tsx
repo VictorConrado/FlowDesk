@@ -33,7 +33,7 @@ export function AuthProvider({
   const [user, setUser] =
     useState<User | null>(() => {
       const token =
-        localStorage.getItem("token");
+        sessionStorage.getItem("token");
 
       if (!token) {
         return null;
@@ -61,7 +61,7 @@ export function AuthProvider({
             ],
         };
       } catch {
-        localStorage.removeItem(
+        sessionStorage.removeItem(
           "token"
         );
 
@@ -82,7 +82,7 @@ export function AuthProvider({
         }
       );
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       "token",
       response.data.token
     );
@@ -109,7 +109,7 @@ export function AuthProvider({
   }
 
   function logout(): void {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
 
     setUser(null);
   }

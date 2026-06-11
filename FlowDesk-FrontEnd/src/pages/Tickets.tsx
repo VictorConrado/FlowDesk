@@ -177,7 +177,7 @@ export default function Tickets() {
       setLoading(true);
       const endpoint = user?.role === "Employee" ? "/tickets/my-tickets" : "/tickets";
       console.log("USER:", user);
-      console.log("TOKEN:", localStorage.getItem("token"));
+      console.log("TOKEN:", sessionStorage.getItem("token"));
       console.log("ENDPOINT:", endpoint);
       
       const response = await api.get(endpoint);

@@ -113,7 +113,7 @@ export default function Navbar() {
         py-5
       "
     >
-      {/* BACKGROUND GLOW */}
+
       <div
         className="
           pointer-events-none
@@ -138,7 +138,7 @@ export default function Navbar() {
           lg:justify-between
         "
       >
-        {/* LEFT */}
+
         <div
           className="
             flex
@@ -148,7 +148,7 @@ export default function Navbar() {
             lg:items-center
           "
         >
-          {/* BRAND */}
+
           <div className="flex items-center gap-4">
             <div
               className="
@@ -195,7 +195,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* NAVIGATION */}
           <div
             className="
               flex
@@ -282,7 +281,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* RIGHT */}
         <div
           className="
             flex
@@ -291,7 +289,7 @@ export default function Navbar() {
             gap-4
           "
         >
-          {/* USER INFO */}
+
           <div
             className="
               flex
@@ -356,7 +354,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* LOGOUT */}
           <button
             onClick={handleLogout}
             className="

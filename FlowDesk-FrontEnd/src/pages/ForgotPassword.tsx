@@ -82,7 +82,7 @@ export default function ForgotPassword() {
         py-10
       "
     >
-      {/* BACKGROUND */}
+
       <div
         className="
           pointer-events-none
@@ -131,7 +131,6 @@ export default function ForgotPassword() {
         />
       </div>
 
-      {/* CARD */}
       <div
         className="
           glass-card
@@ -147,7 +146,7 @@ export default function ForgotPassword() {
           shadow-glass
         "
       >
-        {/* GLOW */}
+
         <div
           className="
             pointer-events-none
@@ -160,7 +159,6 @@ export default function ForgotPassword() {
           "
         />
 
-        {/* HEADER */}
         <div className="relative z-10">
           <div
             className="
@@ -211,7 +209,6 @@ export default function ForgotPassword() {
           </p>
         </div>
 
-        {/* FORM */}
         <form
           onSubmit={handleSubmit}
           className="
@@ -223,7 +220,7 @@ export default function ForgotPassword() {
             gap-5
           "
         >
-          {/* EMAIL */}
+
           <div>
             <label
               className="
@@ -271,7 +268,6 @@ export default function ForgotPassword() {
             </div>
           </div>
 
-          {/* SUCCESS */}
           {success && (
             <div
               className="
@@ -290,7 +286,6 @@ export default function ForgotPassword() {
             </div>
           )}
 
-          {/* ERROR */}
           {error && (
             <div
               className="
@@ -309,7 +304,6 @@ export default function ForgotPassword() {
             </div>
           )}
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
@@ -337,7 +331,6 @@ export default function ForgotPassword() {
           </button>
         </form>
 
-        {/* FOOTER */}
         <div
           className="
             relative

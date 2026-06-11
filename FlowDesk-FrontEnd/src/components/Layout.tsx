@@ -20,7 +20,7 @@ export default function Layout({
         bg-space
       "
     >
-      {/* BACKGROUND EFFECTS */}
+
       <div
         className="
           pointer-events-none
@@ -30,7 +30,7 @@ export default function Layout({
           overflow-hidden
         "
       >
-        {/* TOP LEFT GLOW */}
+
         <div
           className="
             absolute
@@ -44,7 +44,6 @@ export default function Layout({
           "
         />
 
-        {/* TOP RIGHT GLOW */}
         <div
           className="
             absolute
@@ -58,7 +57,6 @@ export default function Layout({
           "
         />
 
-        {/* BOTTOM LEFT GLOW */}
         <div
           className="
             absolute
@@ -72,7 +70,6 @@ export default function Layout({
           "
         />
 
-        {/* GRID OVERLAY */}
         <div
           className="
             absolute
@@ -96,10 +93,8 @@ export default function Layout({
         />
       </div>
 
-      {/* SIDEBAR */}
       <Sidebar />
 
-      {/* MAIN CONTENT */}
       <main
         className="
           relative
@@ -111,10 +106,9 @@ export default function Layout({
           md:ml-[280px]
         "
       >
-        {/* TOPBAR */}
+
         <Topbar />
 
-        {/* CONTENT */}
         <div
           className="
             page-container

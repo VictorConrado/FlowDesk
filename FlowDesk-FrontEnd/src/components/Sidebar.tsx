@@ -72,7 +72,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* MOBILE BUTTON */}
       <button
         onClick={() => setMobileOpen(true)}
         className="
@@ -96,7 +95,6 @@ export default function Sidebar() {
         <Menu size={20} />
       </button>
 
-      {/* MOBILE OVERLAY */}
       {mobileOpen && (
         <div
           className="
@@ -111,7 +109,6 @@ export default function Sidebar() {
         />
       )}
 
-      {/* SIDEBAR */}
       <aside
         className={`
           fixed
@@ -141,7 +138,7 @@ export default function Sidebar() {
           }
         `}
       >
-        {/* HEADER */}
+
         <div
           className={`
             flex
@@ -184,7 +181,6 @@ export default function Sidebar() {
             </div>
           )}
 
-          {/* DESKTOP COLLAPSE */}
           <button
             onClick={() =>
               setCollapsed((prev) => !prev)
@@ -211,7 +207,6 @@ export default function Sidebar() {
             )}
           </button>
 
-          {/* MOBILE CLOSE */}
           <button
             onClick={() => setMobileOpen(false)}
             className="
@@ -232,7 +227,6 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* USER INFO */}
         <div className="px-4 py-5">
           <div
             className={`
@@ -299,7 +293,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* NAVIGATION */}
         <nav
           className="
             flex
@@ -415,7 +408,6 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* FOOTER */}
         <div className="p-4">
           <div
             className={`
