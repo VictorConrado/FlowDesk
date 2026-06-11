@@ -35,6 +35,7 @@ O projeto também conta com testes automatizados utilizando xUnit.
 
 - JWT Bearer Token
 - Rotas protegidas
+- Isolamento de sessão por aba utilizando sessionStorage
 - RBAC por roles
 - Autorização baseada em claims
 - Middleware de autenticação
