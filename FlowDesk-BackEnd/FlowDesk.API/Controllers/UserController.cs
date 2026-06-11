@@ -53,7 +53,8 @@ namespace FlowDesk.API.Controllers
 
                 await _userService.UpdateRoleAsync(
                     id,
-                    dto.RoleId
+                    dto.RoleId,
+                    loggedUserId
                 );
 
                 return NoContent();

@@ -11,7 +11,7 @@ namespace FlowDesk.Application.Interfaces
     {
         Task<IEnumerable<UserDto>> GetAllAsync();
         Task<UserDto> GetByIdAsync(int id);
-        Task UpdateRoleAsync(int id, int role);
+        Task UpdateRoleAsync(int id, int role, int loggedUserId);
         Task DeleteAsync(int id);
     }
 }

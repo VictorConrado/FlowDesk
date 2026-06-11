@@ -1,39 +1,59 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  useContext,
+} from "react";
+
 import type { User } from "../types/user";
+
 import {
   getUsers,
   updateUserRole,
   deleteUser,
 } from "../services/userService";
+
 import axios from "axios";
 
+import { AuthContext } from "../context/AuthContext";
+
 export default function Admin() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loadingUserId, setLoadingUserId] =
+  const { user } =
+    useContext(AuthContext);
+
+  const isSuperAdmin =
+    user?.role === "SuperAdmin";
+
+  const loggedUserId =
+    user?.id ?? null;
+
+  const [users, setUsers] =
+    useState<User[]>([]);
+
+  const [loadingUserId,
+    setLoadingUserId] =
     useState<number | null>(null);
-
-  const loggedUserIdRaw =
-    localStorage.getItem("userId");
-
-  const loggedUserRole =
-    localStorage.getItem("role");
-
-  const loggedUserId = loggedUserIdRaw
-    ? parseInt(loggedUserIdRaw)
-    : null;
 
   async function loadUsers(): Promise<void> {
     try {
       const data = await getUsers();
 
-      setUsers(data);
+      const filteredUsers = 
+      isSuperAdmin
+        ? data
+        : data.filter(
+            (u) => u.role !== "SuperAdmin"
+          );
+
+      setUsers(filteredUsers);
     } catch (error) {
       console.error(
         "Erro ao carregar usuários",
         error
       );
 
-      alert("Erro ao carregar usuários");
+      alert(
+        "Erro ao carregar usuários"
+      );
     }
   }
 
@@ -61,16 +81,24 @@ export default function Admin() {
       setUsers((prev) =>
         prev.map((u) =>
           u.id === userId
-            ? { ...u, role: newRole }
+            ? {
+                ...u,
+                role: newRole,
+              }
             : u
         )
       );
 
-      await updateUserRole(userId, newRole);
+      await updateUserRole(
+        userId,
+        newRole
+      );
 
       await loadUsers();
 
-      alert("Role atualizada com sucesso.");
+      alert(
+        "Role atualizada com sucesso."
+      );
     } catch (err: unknown) {
       setUsers(previousUsers);
 
@@ -94,36 +122,66 @@ export default function Admin() {
     }
   }
 
+  async function handleDeleteUser(
+    userId: number,
+    userName: string
+  ): Promise<void> {
+    const isSelf =
+      loggedUserId !== null &&
+      userId === loggedUserId;
+
+    if (isSelf) {
+      alert(
+        "Você não pode excluir sua própria conta."
+      );
+
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Deseja realmente excluir o usuário ${userName}?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setLoadingUserId(userId);
+
+      await deleteUser(userId);
+
+      setUsers((prev) =>
+        prev.filter(
+          (u) => u.id !== userId
+        )
+      );
+
+      alert(
+        "Usuário excluído com sucesso."
+      );
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const errorMessage =
+          typeof err.response?.data ===
+          "string"
+            ? err.response.data
+            : "Erro ao excluir usuário";
+
+        alert(errorMessage);
+      } else {
+        alert(
+          "Erro inesperado ao excluir usuário"
+        );
+      }
+    } finally {
+      setLoadingUserId(null);
+    }
+  }
+
   useEffect(() => {
     void loadUsers();
   }, []);
-
-async function handleDeleteUser(
-  userId: number
-): Promise<void> {
-  const confirmed = window.confirm(
-    "Tem certeza que deseja excluir este usuário?"
-  );
-
-  if (!confirmed) return;
-
-  try {
-    await deleteUser(userId);
-
-    setUsers((prev) =>
-      prev.filter((u) => u.id !== userId)
-    );
-
-    alert("Usuário excluído com sucesso.");
-  } catch (error) {
-    console.error(
-      "Erro ao excluir usuário",
-      error
-    );
-
-    alert("Erro ao excluir usuário.");
-  }
-}
 
   return (
     <div className="space-y-6">
@@ -133,8 +191,8 @@ async function handleDeleteUser(
         </h1>
 
         <p className="text-slate-400 mt-1">
-          Gerencie permissões e cargos dos
-          usuários.
+          Gerencie permissões e cargos
+          dos usuários.
         </p>
       </div>
 
@@ -143,9 +201,6 @@ async function handleDeleteUser(
           const isSelf =
             loggedUserId !== null &&
             u.id === loggedUserId;
-
-          const isTargetSuperAdmin =
-            u.role === "SuperAdmin";
 
           return (
             <div
@@ -182,51 +237,47 @@ async function handleDeleteUser(
 
                 {isSelf && (
                   <p className="text-xs text-red-400 mt-2">
-                    Você não pode alterar sua
-                    própria role.
+                    Você não pode alterar
+                    sua própria role.
                   </p>
                 )}
-
-                {isTargetSuperAdmin &&
-                  loggedUserRole !==
-                    "SuperAdmin" && (
-                    <p className="text-xs text-amber-400 mt-2">
-                      Apenas SuperAdmins podem
-                      alterar este usuário.
-                    </p>
-                  )}
               </div>
 
               <div className="flex items-center gap-3">
-                {(loggedUserRole === "SuperAdmin" || loggedUserRole === "4") &&
+                {isSuperAdmin &&
                   !isSelf && (
                     <button
                       onClick={() =>
-                        void handleDeleteUser(u.id)
+                        void handleDeleteUser(
+                          u.id,
+                          u.name
+                        )
+                      }
+                      disabled={
+                        loadingUserId ===
+                        u.id
                       }
                       className="
-                        px-3
-                        py-2
-                        rounded-lg
                         bg-red-600
                         hover:bg-red-700
                         text-white
-                        text-sm
-                        transition-colors
+                        px-4
+                        py-2
+                        rounded-lg
+                        transition
+                        disabled:opacity-60
+                        disabled:cursor-not-allowed
                       "
                     >
                       Excluir
                     </button>
-                )}
+                  )}
 
                 <select
                   value={u.role}
                   disabled={
-                    loadingUserId === u.id ||
-                    isSelf ||
-                    (isTargetSuperAdmin &&
-                      loggedUserRole !==
-                        "SuperAdmin")
+                    loadingUserId ===
+                      u.id || isSelf
                   }
                   onChange={(e) =>
                     void handleChangeRole(
@@ -260,17 +311,17 @@ async function handleDeleteUser(
                     Employee
                   </option>
 
-                  {loggedUserRole ===
-                    "SuperAdmin" && (
+                  {isSuperAdmin && (
                     <option value="SuperAdmin">
                       SuperAdmin
                     </option>
                   )}
                 </select>
 
-                {loadingUserId === u.id && (
+                {loadingUserId ===
+                  u.id && (
                   <span className="text-sm text-slate-400">
-                    Salvando...
+                    Processando...
                   </span>
                 )}
               </div>

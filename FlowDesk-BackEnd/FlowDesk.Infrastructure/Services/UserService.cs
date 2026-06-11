@@ -54,7 +54,7 @@ namespace FlowDesk.Infrastructure.Services
             }
         }
 
-        public async Task UpdateRoleAsync(int userId, int roleId)
+        public async Task UpdateRoleAsync(int userId, int roleId, int loggedUserId)
         {
             var user = await _context.Users
                 .Include(u => u.Role)
@@ -62,6 +62,13 @@ namespace FlowDesk.Infrastructure.Services
 
             if (user == null)
                 throw new Exception("Usuário não encontrado");
+
+            var loggedUser = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == loggedUserId);
+
+            if (loggedUser == null)
+                throw new Exception("Usuário logado não encontrado");
 
             var targetRole = await _context.Roles
                 .FirstOrDefaultAsync(r => r.Id == roleId);
@@ -71,6 +78,37 @@ namespace FlowDesk.Infrastructure.Services
 
             var currentRole = user.Role.Name;
             var newRole = targetRole.Name;
+            var loggedUserRole = loggedUser.Role.Name;
+
+            if (
+                currentRole == "SuperAdmin" &&
+                loggedUserRole != "SuperAdmin"
+            )
+            {
+                throw new Exception(
+                    "Você não pode alterar um SuperAdmin."
+                );
+            }
+
+            if (
+                newRole == "SuperAdmin" &&
+                loggedUserRole != "SuperAdmin"
+            )
+            {
+                throw new Exception(
+                    "Somente SuperAdmin pode promover usuários para SuperAdmin."
+                );
+            }
+
+            if (
+                currentRole == "SuperAdmin" &&
+                newRole != "SuperAdmin"
+            )
+            {
+                throw new Exception(
+                    "O SuperAdmin não pode ser rebaixado."
+                );
+            }
 
             var isDowngradeToEmployee =
                 (currentRole == "Admin" ||
