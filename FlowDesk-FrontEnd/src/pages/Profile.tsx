@@ -6,12 +6,45 @@ import type { Ticket } from "../types/ticket";
 
 import TicketModal from "../components/TicketModal";
 
+interface TicketComment {
+  user: string;
+  content: string;
+  createdAt: string;
+}
+
+type TicketStatus =
+  | "Open"
+  | "InProgress"
+  | "Closed";
+
+type TicketPriority =
+  | "Low"
+  | "Medium"
+  | "High";
+
+interface TicketDetails {
+  id: number;
+  number?: string;
+  title: string;
+  description: string;
+
+  status: TicketStatus;
+  priority: TicketPriority;
+
+  category: string;
+  openedBy: string;
+  assignedTo: string | null;
+  createdAt: string;
+  closedAt?: string | null;
+  slaExpiresAt?: string | null;
+  closingComment?: string | null;
+  comments: TicketComment[];
+}
+
 export default function Profile() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  const [selectedTicketId, setSelectedTicketId] = useState<number | null>(
-    null
-  );
+  const [selectedTicket, setSelectedTicket] = useState<TicketDetails | null>(null);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -21,16 +54,23 @@ export default function Profile() {
       .then((res) => setTickets(res.data));
   }, []);
 
-  function handleOpenTicket(ticketId: number) {
-    setSelectedTicketId(ticketId);
-    setOpenModal(true);
-  }
+  async function handleOpenTicket(
+      ticketId: number
+    ) {
+      const response = await api.get<TicketDetails>(
+        `/tickets/${ticketId}`
+      );
+
+      setSelectedTicket(response.data);
+
+      setOpenModal(true);
+    }
 
   function handleCloseModal() {
     setOpenModal(false);
-    setSelectedTicketId(null);
+    setSelectedTicket(null);
   }
-
+  
   return (
     <div className="space-y-6">
       <div>
@@ -92,11 +132,17 @@ export default function Profile() {
         ))}
       </div>
 
-      {openModal && selectedTicketId && (
+      {openModal && selectedTicket && (
         <TicketModal
-          ticket={tickets.find((t) => t.id === selectedTicketId)}
-          open={openModal}
+          ticket={selectedTicket}
           onClose={handleCloseModal}
+          onUpdated={async () => {
+            const res = await api.get<TicketDetails[] >(
+              "/tickets/my-tickets"
+            );
+
+            setTickets(res.data);
+          }}
         />
       )}
     </div>

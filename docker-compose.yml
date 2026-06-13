@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  frontend:
+    build:
+      context: ./FlowDesk-FrontEnd
+    container_name: flowdesk-front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./FlowDesk-BackEnd
+    container_name: flowdesk-api
+    ports:
+      - "5000:8080"
+    depends_on:
+      - mysql
+      - rabbitmq
+
+  mysql:
+    image: mysql:8
+    container_name: flowdesk-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: flowdesk
+    ports:
+      - "3306:3306"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: flowdesk-rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
