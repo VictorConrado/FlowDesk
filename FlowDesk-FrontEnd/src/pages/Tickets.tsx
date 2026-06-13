@@ -29,7 +29,7 @@ type TicketStatus = "Open" | "InProgress" | "Closed";
 type TicketPriority = "Low" | "Medium" | "High";
 
 interface TicketComment {
-  id: number;
+  user: string;
   content: string;
   createdAt: string;
 }
@@ -417,7 +417,7 @@ export default function Tickets() {
 
       {selectedTicket && (
         <TicketModal
-          ticket={selectedTicket as any}
+          ticket={selectedTicket}
           onClose={() => setSelectedTicket(null)}
           onUpdated={fetchTickets}
         />

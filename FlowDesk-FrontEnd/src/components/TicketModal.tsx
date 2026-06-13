@@ -30,7 +30,6 @@ type TicketPriority =
   | "High";
 
 interface TicketComment {
-  id: number;
   content: string;
   createdAt: string;
   user: string;
@@ -38,30 +37,22 @@ interface TicketComment {
 
 interface Ticket {
   id: number;
-  number: string;
-
+  number?: string;
   title: string;
   description: string;
-
-  status: TicketStatus;
-
-  priority: TicketPriority;
-
-  category: string;
-
-  openedBy: string;
-
-  assignedTo: string | null;
-
-  createdAt: string;
-
+  status: TicketStatus | string | number;
+  priority: TicketPriority | string | number; 
+  category?: string;
+  openedBy?: string; 
+  assignedTo?: string | null; 
+  createdAt?: string; 
   closedAt?: string | null;
-
   slaExpiresAt?: string | null;
-
+  comments?: TicketComment[];
   closingComment?: string | null;
 
-  comments: TicketComment[];
+  user?: { name: string };
+  assignedUser?: { name: string };
 }
 
 interface SystemUser {
@@ -97,6 +88,54 @@ const statusClasses = {
   Closed:
     "bg-green-500/15 text-green-300 border border-green-500/30",
 };
+
+function normalizeStatus(
+  status?: string | number
+): TicketStatus {
+  if (!status) return "Open";
+
+  const value = String(status).toLowerCase();
+
+  if (
+    value.includes("progress") ||
+    value === "2"
+  ) {
+    return "InProgress";
+  }
+
+  if (
+    value.includes("closed") ||
+    value === "3"
+  ) {
+    return "Closed";
+  }
+
+  return "Open";
+}
+
+function normalizePriority(
+  priority?: string | number
+): TicketPriority {
+  if (!priority) return "Low";
+
+  const value = String(priority).toLowerCase();
+
+  if (
+    value.includes("high") ||
+    value === "3"
+  ) {
+    return "High";
+  }
+
+  if (
+    value.includes("medium") ||
+    value === "2"
+  ) {
+    return "Medium";
+  }
+
+  return "Low";
+}
 
 function formatDate(
   date?: string | null
@@ -530,7 +569,7 @@ export default function TicketModal({
                 rounded-2xl p-4
                 ${
                   statusClasses[
-                    ticketData.status
+                    normalizeStatus(ticketData.status)
                   ]
                 }
               `}
@@ -549,7 +588,7 @@ export default function TicketModal({
                 rounded-2xl p-4
                 ${
                   priorityClasses[
-                    ticketData.priority
+                     normalizePriority(ticketData.priority)
                   ]
                 }
               `}
@@ -743,9 +782,9 @@ export default function TicketModal({
               {ticketData.comments
                 ?.length ? (
                 ticketData.comments.map(
-                  (comment) => (
+                  (comment, index) => (
                     <div
-                      key={comment.id}
+                      key={index}
                       className="
                         rounded-2xl border
                         border-white/10
