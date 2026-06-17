@@ -12,7 +12,7 @@ public class RabbitMqService : IMessageBus
     {
         var factory = new ConnectionFactory()
         {
-            HostName = "localhost" // depois trocar pra config
+            HostName = "rabbitmq" // depois trocar pra config
         };
 
         _connection = factory.CreateConnection();
