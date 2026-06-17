@@ -23,7 +23,7 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
             var factory = new ConnectionFactory()
             {
-                HostName = "localhost"
+                HostName = "rabbitmq"
             };
 
             _connection = factory.CreateConnection();

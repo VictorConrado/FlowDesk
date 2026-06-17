@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace FlowDesk.Infrastructure.Messaging
+namespace FlowDesk.Infrastructure.Messaging.Consumers
 {
     public class TicketCreatedConsumer
     {
@@ -16,7 +16,7 @@ namespace FlowDesk.Infrastructure.Messaging
         {
             var factory = new ConnectionFactory()
             {
-                HostName = "localhost"
+                HostName = "rabbitmq"
             };
 
             var connection = factory.CreateConnection();

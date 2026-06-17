@@ -91,7 +91,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins("http://localhost:3000", "http://localhost:5173")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -106,12 +106,9 @@ var app = builder.Build();
 app.UseCors("AllowFrontend");
 
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -120,5 +117,12 @@ app.MapControllers();
 
 var consumer = new TicketCreatedConsumer();
 consumer.Start();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    db.Database.Migrate();
+}
 
 app.Run();
