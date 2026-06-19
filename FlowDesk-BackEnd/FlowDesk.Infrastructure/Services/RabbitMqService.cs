@@ -1,47 +1,60 @@
 ﻿using FlowDesk.Application.Interfaces;
+using FlowDesk.Infrastructure.Messaging;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
 public class RabbitMqService : IMessageBus
 {
-    private readonly IConnection _connection;
-    private readonly IModel _channel;
+    private readonly IConnection? _connection;
+    private readonly IModel? _channel;
 
-    public RabbitMqService()
+    public RabbitMqService(
+        IRabbitMqConnectionFactory factory)
     {
-        var factory = new ConnectionFactory()
-        {
-            HostName = "rabbitmq" // depois trocar pra config
-        };
-
         _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
+
+        if (_connection != null)
+        {
+            _channel = _connection.CreateModel();
+        }
     }
 
     public Task PublishAsync<T>(T message)
     {
+        if (_channel == null)
+        {
+            Console.WriteLine(
+                "RabbitMQ indisponível. Evento ignorado."
+            );
+
+            return Task.CompletedTask;
+        }
+
         var queue = typeof(T).Name;
 
         _channel.QueueDeclare(
-            queue: queue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false,
-            arguments: null
+            queue,
+            true,
+            false,
+            false,
+            null
         );
 
         var json = JsonSerializer.Serialize(message);
+
         var body = Encoding.UTF8.GetBytes(json);
 
-        var properties = _channel.CreateBasicProperties();
+        var properties =
+            _channel.CreateBasicProperties();
+
         properties.Persistent = true;
 
         _channel.BasicPublish(
-            exchange: "",
-            routingKey: queue,
-            basicProperties: properties,
-            body: body
+            "",
+            queue,
+            properties,
+            body
         );
 
         return Task.CompletedTask;

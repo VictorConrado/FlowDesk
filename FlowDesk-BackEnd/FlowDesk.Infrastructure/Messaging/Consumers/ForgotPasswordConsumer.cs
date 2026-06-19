@@ -1,7 +1,8 @@
 ﻿using FlowDesk.Application.Events;
 using FlowDesk.Application.Interfaces;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -15,18 +16,23 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
         private readonly IModel _channel;
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public ForgotPasswordConsumer(IServiceScopeFactory scopeFactory)
+        public ForgotPasswordConsumer(IServiceScopeFactory scopeFactory, IRabbitMqConnectionFactory factory)
         {
             _scopeFactory = scopeFactory;
 
             Console.WriteLine("ForgotPasswordConsumer iniciado");
 
-            var factory = new ConnectionFactory()
-            {
-                HostName = "rabbitmq"
-            };
-
             _connection = factory.CreateConnection();
+
+            if (_connection == null)
+            {
+                Console.WriteLine(
+                    "RabbitMQ indisponível. ForgotPasswordConsumer desativado."
+                );
+
+                return;
+            }
+
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
@@ -40,6 +46,11 @@ namespace FlowDesk.Infrastructure.Messaging.Consumers
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            if (_channel == null)
+            {
+                return Task.CompletedTask;
+            }
+
             Console.WriteLine("Consumer escutando fila...");
 
             var consumer = new EventingBasicConsumer(_channel);
