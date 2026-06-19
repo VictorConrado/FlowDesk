@@ -8,6 +8,8 @@ O objetivo é simular um cenário corporativo real com autenticação, autoriza�
 
 O projeto também conta com testes automatizados utilizando xUnit.
 
+Verifique o backend do projeto rodando: [flowdesk-app](https://flowdesk-6ec9.onrender.com/swagger/index.html)
+
 ---
 
 # 🏗️ Arquitetura (DDD)
