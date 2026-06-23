@@ -143,7 +143,8 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins(
                 "http://localhost:3000",
-                "http://localhost:5173"
+                "http://localhost:5173",
+                "https://flow-desk-2i5cuduon-victorange.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
