@@ -28,39 +28,60 @@ namespace FlowDesk.Infrastructure.Migrations
             migrationBuilder.AddColumn<Guid>(
                 name: "Number",
                 table: "Tickets",
-                type: "char(36)",
+                type: "varchar(36)",
                 nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
-                collation: "ascii_general_ci");
+                defaultValue: Guid.Empty);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "SLAExpiresAt",
                 table: "Tickets",
                 type: "datetime(6)",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: new DateTime(
+                    1, 1, 1, 0, 0, 0, 0,
+                    DateTimeKind.Unspecified));
 
             migrationBuilder.CreateTable(
                 name: "TicketComments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    TicketId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "longtext", nullable: false)
+                    Id = table.Column<int>(
+                        type: "int",
+                        nullable: false)
+                        .Annotation(
+                            "MySql:ValueGenerationStrategy",
+                            MySqlValueGenerationStrategy.IdentityColumn),
+
+                    TicketId = table.Column<int>(
+                        type: "int",
+                        nullable: false),
+
+                    UserId = table.Column<int>(
+                        type: "int",
+                        nullable: false),
+
+                    Content = table.Column<string>(
+                        type: "longtext",
+                        nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+
+                    CreatedAt = table.Column<DateTime>(
+                        type: "datetime(6)",
+                        nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TicketComments", x => x.Id);
+                    table.PrimaryKey(
+                        "PK_TicketComments",
+                        x => x.Id);
+
                     table.ForeignKey(
                         name: "FK_TicketComments_Tickets_TicketId",
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+
                     table.ForeignKey(
                         name: "FK_TicketComments_Users_UserId",
                         column: x => x.UserId,
