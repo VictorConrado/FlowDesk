@@ -18,6 +18,9 @@ namespace FlowDesk.API.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        ///  Endpoint para obter todos os usuários do sistema.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAll([FromServices] Application.Interfaces.IUserService userService)
         {
@@ -25,6 +28,9 @@ namespace FlowDesk.API.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        ///  Endpoint para obter um usuário específico pelo ID.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -34,6 +40,9 @@ namespace FlowDesk.API.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        ///  Endpoint para atualizar a role de um usuário específico.   
+        /// </summary>
         [Authorize(policy:"AdminOnly")]
         [HttpPut("{id}/role")]
         public async Task<IActionResult> UpdateRoleAsync(int id, [FromBody] UpdateUserRoleDto dto)
@@ -65,7 +74,9 @@ namespace FlowDesk.API.Controllers
             }
         }
 
-
+        /// <summary>
+        ///  Endpoint para deletar um usuário específico pelo ID.
+        /// </summary>
         [Authorize(policy: "SuperAdminOnly")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

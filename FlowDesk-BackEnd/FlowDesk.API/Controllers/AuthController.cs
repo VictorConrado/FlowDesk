@@ -20,6 +20,10 @@ namespace FlowDesk.API.Controllers
             _auth = auth;
         }
 
+        ///<summary>
+        /// Endpoint para registrar um novo usuário.
+        /// </summary>
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
@@ -34,7 +38,10 @@ namespace FlowDesk.API.Controllers
             }
         }
 
-        //POST /api/auth/login
+        ///<summary>
+        /// Endpoint para logar no sistema.
+        /// </summary>
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
@@ -42,6 +49,9 @@ namespace FlowDesk.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        ///    Endpoint para obter informações do usuário logado.
+        /// </summary>
         [Authorize]
         [HttpGet("me")]
         public IActionResult Me()
@@ -56,6 +66,9 @@ namespace FlowDesk.API.Controllers
             });
         }
 
+        /// <summary>
+        ///    Endpoint para iniciar o processo de recuperação de senha. 
+        /// </summary>
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
         {
@@ -63,6 +76,9 @@ namespace FlowDesk.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///    Endpoint para redefinir a senha do usuário.
+        /// </summary>
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto dto)
         {
