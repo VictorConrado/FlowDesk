@@ -10,6 +10,48 @@ O projeto também conta com testes automatizados utilizando xUnit.
 
 Verifique o backend do projeto rodando: [flowdesk-app](https://flowdesk-6ec9.onrender.com/swagger/index.html)
 
+Verifique o frontend do projeto rodando: [flowdesk-web](https://flow-desk-jet.vercel.app)
+
+---
+
+# 🔐 Credenciais de teste
+
+## 👑 Admin
+
+```text
+email: admin1@flowdesk.com
+senha: admin1
+```
+```text
+email: admin2@flowdesk.com
+senha: admin2
+```
+
+---
+
+## 🛠️ Technician
+
+```text
+email: technician1@flowdesk.com
+senha: technician1
+```
+```text
+email: technician2@flowdesk.com
+senha: technician2
+```
+---
+
+## 👤 Employee
+
+```text
+email: employee1@flowdesk.com
+senha: employee1
+```
+```text
+email: employee2@flowdesk.com
+senha: employee2
+```
+
 ---
 
 # 🏗️ Arquitetura (DDD)
@@ -60,7 +102,7 @@ Verifique o backend do projeto rodando: [flowdesk-app](https://flowdesk-6ec9.onr
 - Gerencia atendimento
 - Fecha tickets atribuídos
 
-### 👤 User
+### 👤 Employee
 
 - Cria tickets
 - Visualiza próprios tickets
@@ -433,26 +475,6 @@ npm run dev
 
 ```bash
 docker-compose up -d
-```
-
----
-
-# 🔐 Credenciais de teste
-
-## 👑 Admin
-
-```text
-email: admin@flowdesk.com
-senha: 123456
-```
-
----
-
-## 🛠️ Technician
-
-```text
-email: tech@flowdesk.com
-senha: 123456
 ```
 
 ---
